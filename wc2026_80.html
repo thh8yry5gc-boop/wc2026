@@ -381,6 +381,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   background:linear-gradient(90deg,rgba(74,222,128,0.10) 0%, rgba(74,222,128,0.16) 50%, rgba(74,222,128,0.10) 100%) !important;
   box-shadow:inset 0 0 20px rgba(74,222,128,0.08);
 }
+.mr.match-near{
+  border-left:2px solid #a78bfa !important;
+  background:linear-gradient(90deg,rgba(167,139,250,0.05) 0%, rgba(167,139,250,0.09) 50%, rgba(167,139,250,0.05) 100%) !important;
+  cursor:pointer;
+}
 .mr.match-part{
   border-left:2px solid var(--ac) !important;
   background:linear-gradient(90deg,rgba(244,208,63,0.05) 0%, rgba(244,208,63,0.08) 50%, rgba(244,208,63,0.05) 100%) !important;
@@ -411,9 +416,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   letter-spacing:.04em;
 }
 .mr.match-win .mr-result{background:rgba(74,222,128,0.18);color:var(--gr);border:1px solid rgba(74,222,128,0.5)}
+.mr.match-near .mr-result{background:rgba(167,139,250,0.18);color:#a78bfa;border:1px solid rgba(167,139,250,0.5)}
 .mr.match-part .mr-result{background:rgba(244,208,63,0.18);color:var(--ac);border:1px solid rgba(244,208,63,0.5)}
 .mr.match-miss .mr-result{background:rgba(248,113,113,0.15);color:var(--rd);border:1px solid rgba(248,113,113,0.4)}
 .mr.match-nopred .mr-result{background:rgba(187,187,187,0.1);color:var(--mu);border:1px solid rgba(187,187,187,0.3)}
+.sc-near{background:rgba(167,139,250,0.08);border-left:3px solid rgba(167,139,250,0.6);padding-left:5px}
+.sc-near .sc-tag{color:#a78bfa}
 /* Detail row — expanded on click */
 .mr-detail{
   display:flex;
@@ -1700,8 +1708,9 @@ const BRACKET_SLOT_H = {               // высота слотов в сетк�
   compare: [98, 174, 322, 590],
   real:    [92, 166, 308, 560]
 };
-const POINTS_EXACT = 3;                // точный счёт
-const POINTS_OUTCOME = 1;              // правильный исход
+const POINTS_EXACT = 6;                // точный счёт
+const POINTS_NEAR = 3;                 // победитель угадан + счёт ±1 гол суммарно
+const POINTS_OUTCOME = 1;              // правильный исход (победитель угадан)
 const THIRD_PLACE_QUOTA = 8;           // сколько 3-х мест проходят в плейофф
 const TOTAL_GROUP_MATCHES = 72;        // всего матчей в групповом этапе
 const PLAYOFF_STAGE_KEY = {            // маппинг этапов в API → группы карточек
@@ -1964,6 +1973,7 @@ function renderGroups(){
       if(real){
         // Override visual: win=green, part=yellow, miss=red, nopred=gray hint
         if(real.kind === 'full'){ resultClass = ' match-win'; resultLabel = `+${POINTS_EXACT}`; }
+        else if(real.kind === 'near'){ resultClass = ' match-near'; resultLabel = `+${POINTS_NEAR}`; }
         else if(real.kind === 'part'){ resultClass = ' match-part'; resultLabel = `+${POINTS_OUTCOME}`; }
         else if(real.kind === 'zero'){ resultClass = ' match-miss'; resultLabel = '0'; }
         else if(real.kind === 'nopred'){ resultClass = ' match-nopred'; resultLabel = '—'; }
@@ -1991,7 +2001,7 @@ function renderGroups(){
       ${real ? `<div class="mr-detail" data-detail="${mid}" style="display:none">
         <span class="mr-detail-label">факт:</span>
         <span class="mr-detail-score">${real.realH} : ${real.realA}</span>
-        ${real.pts !== null ? `<span class="mr-detail-pts mr-pts-${real.kind}">${real.kind==='full'?'точно угадал':real.kind==='part'?'верный исход':'мимо'} · ${resultLabel} ${real.pts===1?'очко':'очков'}</span>` : '<span class="mr-detail-pts" style="opacity:0.6">прогноз не заполнен</span>'}
+        ${real.pts !== null ? `<span class="mr-detail-pts mr-pts-${real.kind}">${real.kind==='full'?'точно угадал':real.kind==='near'?'близко к счёту':real.kind==='part'?'верный исход':'мимо'} · ${resultLabel} ${real.pts===1?'очко':real.pts<5?'очка':'очков'}</span>` : '<span class="mr-detail-pts" style="opacity:0.6">прогноз не заполнен</span>'}
       </div>` : ''}
       <div class="note-row">${tvb || '<span style="opacity:0.3;font-size:10px;color:var(--mu)">—</span>'}</div>`;
     });
@@ -2695,8 +2705,8 @@ async function fetchRealBracket(){
     (json.matches||[]).forEach((match,idx)=>{
       if(!match.score?.fullTime)return;
       const hs=match.score.fullTime.home,as_=match.score.fullTime.away;
-      const home=match.homeTeam.shortName||match.homeTeam.name;
-      const away=match.awayTeam.shortName||match.awayTeam.name;
+      const home=ruName(match.homeTeam.shortName||match.homeTeam.name)||(match.homeTeam.shortName||match.homeTeam.name);
+      const away=ruName(match.awayTeam.shortName||match.awayTeam.name)||(match.awayTeam.shortName||match.awayTeam.name);
       const winner=match.score.winner==='HOME_TEAM'?home:match.score.winner==='AWAY_TEAM'?away:'ничья';
       realBracket[`api_${idx}`]={winner,score:`${hs}:${as_}`,home,away,stage:match.stage};
     });
@@ -2738,10 +2748,11 @@ const isoCode = name => ISO_CODES[name] || (name||'').slice(0,3).toUpperCase();
 const RU_NAME_MAP = {
   'USA':'США','South Korea':'Южная Корея','Korea Republic':'Южная Корея',
   'Saudi Arabia':'Саудовская Аравия','South Africa':'ЮАР','RSA':'ЮАР',
-  'Ivory Coast':'Кот-д\'Ивуар','Côte d\'Ivoire':'Кот-д\'Ивуар',
+  'Ivory Coast':'Кот-д\'Ивуар','Côte d\'Ivoire':'Кот-д\'Ивуар','Cote d\'Ivoire':'Кот-д\'Ивуар',
   'Cape Verde':'Кабо-Верде','Cabo Verde':'Кабо-Верде',
   'New Zealand':'Нов. Зеландия','DR Congo':'ДР Конго','Congo DR':'ДР Конго',
-  'Bosnia and Herzegovina':'Босния','Bosnia & Herzegovina':'Босния',
+  'Bosnia and Herzegovina':'Босния','Bosnia & Herzegovina':'Босния','Bosnia-H.':'Босния','Bosnia-Herzegovina':'Босния',
+  'United States':'США','United States of America':'США',
   'England':'Англия','France':'Франция','Germany':'Германия','Spain':'Испания',
   'Portugal':'Португалия','Netherlands':'Нидерланды','Belgium':'Бельгия',
   'Italy':'Италия','Croatia':'Хорватия','Uruguay':'Уругвай','Brazil':'Бразилия',
@@ -2828,8 +2839,11 @@ function scoreRealMatch(rm){
     const [hi, ai] = g.m[i];
     const hn = g.t[hi][1], an = g.t[ai][1];
     // Match either home-home or swapped (data orderings can differ)
-    const direct = (hn === rm.home && an === rm.away);
-    const swapped = (hn === rm.away && an === rm.home);
+    // Normalize API names via ruName() before comparing with local GD names
+    const rmHome = ruName(rm.home) || rm.home;
+    const rmAway = ruName(rm.away) || rm.away;
+    const direct = (hn === rmHome && an === rmAway) || fuzzyMatch(hn, rmHome) && fuzzyMatch(an, rmAway);
+    const swapped = (hn === rmAway && an === rmHome) || fuzzyMatch(hn, rmAway) && fuzzyMatch(an, rmHome);
     if(!direct && !swapped) continue;
     const mid = `g${rm.group}_${i}`;
     const myH = lg(mid+'_h'), myA = lg(mid+'_a');
@@ -2843,7 +2857,11 @@ function scoreRealMatch(rm){
     const myOut = myHome === myAway ? 'D' : (myHome > myAway ? 'H' : 'A');
     const realOut = rm.hs === rm.as ? 'D' : (rm.hs > rm.as ? 'H' : 'A');
     if(myOut === realOut){
-      return {pts: POINTS_OUTCOME, kind:'part', myH: myHome, myA: myAway};
+      // Winner correct — check if score is close (total goal diff ≤ 1)
+      const scoreDiff = Math.abs(myHome - rm.hs) + Math.abs(myAway - rm.as);
+      const kind = scoreDiff <= 1 ? 'near' : 'part';
+      const pts = scoreDiff <= 1 ? POINTS_NEAR : POINTS_OUTCOME;
+      return {pts, kind, myH: myHome, myA: myAway};
     }
     return {pts: 0, kind:'zero', myH: myHome, myA: myAway};
   }
@@ -2866,8 +2884,10 @@ function findRealForGroupMatch(gid, mIdx, reader){
   // Find the real match with both teams (in any order)
   for(const rm of realMatches){
     if(rm.group !== gid) continue;
-    const direct = (rm.home === hn && rm.away === an);
-    const swapped = (rm.home === an && rm.away === hn);
+    const rmH = ruName(rm.home) || rm.home;
+    const rmA = ruName(rm.away) || rm.away;
+    const direct = (rmH === hn && rmA === an) || (fuzzyMatch(hn, rmH) && fuzzyMatch(an, rmA));
+    const swapped = (rmH === an && rmA === hn) || (fuzzyMatch(an, rmH) && fuzzyMatch(hn, rmA));
     if(!direct && !swapped) continue;
     // Match found — score it
     const mid = `g${gid}_${mIdx}`;
@@ -2889,7 +2909,10 @@ function findRealForGroupMatch(gid, mIdx, reader){
     const myOut = myHome === myAway ? 'D' : (myHome > myAway ? 'H' : 'A');
     const realOut = realH === realA ? 'D' : (realH > realA ? 'H' : 'A');
     if(myOut === realOut){
-      return {realH, realA, pts: POINTS_OUTCOME, kind: 'part'};
+      const scoreDiff = Math.abs(myHome - realH) + Math.abs(myAway - realA);
+      const kind = scoreDiff <= 1 ? 'near' : 'part';
+      const pts = scoreDiff <= 1 ? POINTS_NEAR : POINTS_OUTCOME;
+      return {realH, realA, pts, kind};
     }
     return {realH, realA, pts: 0, kind: 'zero'};
   }
@@ -3251,8 +3274,8 @@ function renderLiveSection(){
   } else {
     html += `<div class="live-matches-scroll">`;
     live.scoredMatches.slice(0, 6).forEach(m => {
-      const cardCls = m.kind === 'full' ? 'win' : m.kind === 'part' ? 'partial' : 'zero';
-      const dotCls = m.kind === 'full' ? 'win' : m.kind === 'part' ? 'partial' : 'zero';
+      const cardCls = m.kind === 'full' ? 'win' : m.kind === 'near' ? 'near' : m.kind === 'part' ? 'partial' : 'zero';
+      const dotCls = m.kind === 'full' ? 'win' : m.kind === 'near' ? 'near' : m.kind === 'part' ? 'partial' : 'zero';
       const ptsCls = m.kind === 'full' ? 'full' : m.kind === 'part' ? 'part' : 'zero';
       const ptsLbl = m.pts === 0 ? '0' : `+${m.pts}`;
       html += `<div class="live-match-card ${cardCls}">
@@ -4025,7 +4048,7 @@ function renderStats(){
 
 function renderScore(){
   const filled=Object.keys(GD).reduce((n,gid)=>n+GD[gid].m.filter((_,i)=>lg(`g${gid}_${i}_h`)!==''&&lg(`g${gid}_${i}_a`)!=='').length,0);
-  let h=`<div class="rules-box">Система: <span>${POINTS_EXACT} очка</span> — точный счёт &nbsp;·&nbsp; <span>${POINTS_OUTCOME} очко</span> — правильный исход &nbsp;·&nbsp; <span>0</span> — промах<br>Заполнено матчей: <span>${filled}</span> из ${TOTAL_GROUP_MATCHES} (групповой этап)</div>`;
+  let h=`<div class="rules-box">Система: <span>${POINTS_EXACT} очков</span> — точный счёт &nbsp;·&nbsp; <span>${POINTS_NEAR} очка</span> — победитель + счёт ±1 гол &nbsp;·&nbsp; <span>${POINTS_OUTCOME} очко</span> — верный исход &nbsp;·&nbsp; <span>0</span> — промах<br>Заполнено матчей: <span>${filled}</span> из ${TOTAL_GROUP_MATCHES} (групповой этап)</div>`;
 
   const hasOtherData = hasOther();
   const hasReal = realMatches && realMatches.length > 0;
@@ -4052,8 +4075,8 @@ function renderScore(){
         const [fh, nh] = g.t[m[0]], [fa, na] = g.t[m[1]];
         const mid = `g${gid}_${i}`;
         const myH = lg(mid+'_h'), myA = lg(mid+'_a');
-        const tag = k => k==='full'?'⚡':k==='part'?'✓':k==='zero'?'✗':'·';
-        const cls = k => k==='full'?'exact':k==='part'?'outcome':'miss';
+        const tag = k => k==='full'?'⚡':k==='near'?'★':k==='part'?'✓':k==='zero'?'✗':'·';
+        const cls = k => k==='full'?'exact':k==='near'?'near':k==='part'?'outcome':'miss';
         rows.push(`<div class="sc-row sc-${cls(mine.kind)}">
           <span class="sc-tag">${tag(mine.kind)}</span>
           <span class="sc-teams">${fh} ${nh} <b class="sc-real-score">${mine.realH}:${mine.realA}</b> ${na} ${fa}</span>
