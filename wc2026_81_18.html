@@ -1386,11 +1386,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .trow-tag.miss{background:rgba(255,255,255,0.05);color:var(--mu)}
 /* Real upsets — flag-led cards that never wrap */
 .upsets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.upset-card{background:linear-gradient(135deg,rgba(244,208,63,0.08),rgba(244,208,63,0.02));border:1px solid rgba(244,208,63,0.35);border-radius:14px;padding:14px;transition:transform 0.2s,box-shadow 0.2s}
+.upset-card{background:var(--glass);border:1px solid var(--b2);border-radius:14px;padding:14px;transition:transform 0.2s,box-shadow 0.2s}
 .upset-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(244,208,63,0.18)}
-.upset-score-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(244,208,63,0.18)}
-.upset-score{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--ac);line-height:1;letter-spacing:.03em}
-.upset-draw{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;background:rgba(244,208,63,0.15);padding:2px 7px;border-radius:6px}
+.upset-score-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--b)}
+.upset-score{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--tx);line-height:1;letter-spacing:.03em}
+.upset-draw{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;background:rgba(255,255,255,0.06);padding:2px 7px;border-radius:6px}
 .upset-place{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 .upset-team{display:flex;align-items:center;gap:9px;padding:4px 0}
 .upset-flag{font-size:20px;line-height:1;flex-shrink:0}
@@ -1399,12 +1399,18 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .upset-team.loser .upset-name{color:var(--mu);opacity:0.75}
 .upset-team.even .upset-name{color:var(--tx);font-weight:500}
 .upset-match{margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,0.06);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
-.upset-match.hit{color:var(--gr)}
-.upset-match.exact{color:#34d399;text-shadow:0 0 12px rgba(52,211,153,0.4)}
+.upset-match.hit{color:var(--ac)}
+.upset-match.exact{color:var(--gr)}
 .upset-match.near{color:#a78bfa}
 .upset-match.miss{color:var(--mu);opacity:0.55}
-.upset-card.matched{border-color:rgba(74,222,128,0.5);background:linear-gradient(135deg,rgba(74,222,128,0.1),rgba(74,222,128,0.02))}
-.upset-card.matched:hover{box-shadow:0 10px 26px rgba(74,222,128,0.2)}
+.upset-card.tier-exact{border-color:rgba(52,211,153,0.6);background:linear-gradient(135deg,rgba(52,211,153,0.12),rgba(52,211,153,0.02));box-shadow:0 0 18px rgba(52,211,153,0.18)}
+.upset-card.tier-exact:hover{box-shadow:0 10px 26px rgba(52,211,153,0.28)}
+.upset-card.tier-near{border-color:rgba(167,139,250,0.55);background:linear-gradient(135deg,rgba(167,139,250,0.1),rgba(167,139,250,0.02))}
+.upset-card.tier-near:hover{box-shadow:0 10px 26px rgba(167,139,250,0.22)}
+.upset-card.tier-hit{border-color:rgba(244,208,63,0.5);background:linear-gradient(135deg,rgba(244,208,63,0.08),rgba(244,208,63,0.02))}
+.upset-card.tier-hit:hover{box-shadow:0 10px 26px rgba(244,208,63,0.18)}
+.upset-card.tier-miss{border-color:rgba(248,113,113,0.45);background:linear-gradient(135deg,rgba(248,113,113,0.07),rgba(248,113,113,0.01))}
+.upset-card.tier-miss:hover{box-shadow:0 10px 26px rgba(248,113,113,0.16)}
 .hero-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--b);font-size:14px}
 .hero-row:last-child{border-bottom:none}
 .hero-flag{font-size:24px;line-height:1}
@@ -4057,13 +4063,13 @@ function renderLiveSection(){
       <div class="duel-style-hint">Не «кто угадал», а «кто как ставит» — характер ваших прогнозов</div>`;
 
       // Per-player prediction portraits (insights replace the old dry rows).
-      const myProfile = computeStyleProfile(lg);
-      const oProfile = computeStyleProfile(getOtherPred);
+      const myProfile = computeStyleProfile(lg, bkGet);
+      const oProfile = computeStyleProfile(getOtherPred, getOtherBk);
       const insightRows = (prof) => {
         if(!prof || prof.insights.length === 0){
           return `<div class="duel-portrait-empty">Мало данных для портрета</div>`;
         }
-        return prof.insights.slice(0,4).map(ins =>
+        return prof.insights.slice(0,6).map(ins =>
           `<div class="duel-insight">
             <span class="duel-insight-icon">${ins.icon}</span>
             <div class="duel-insight-body">
@@ -4245,7 +4251,7 @@ function renderLiveSection(){
       else if(kind === 'part'){ matchCls = 'hit'; matchLbl = '✓ угадал исход'; }
       else { matchCls = 'miss'; matchLbl = '✗ не угадал'; }
       const isHit = matchCls !== 'miss';
-      html += `<div class="upset-card${isHit ? ' matched' : ''}">
+      html += `<div class="upset-card tier-${matchCls}">
         <div class="upset-score-row">
           <span class="upset-score">${scoreStr}</span>
           ${u.isDraw ? '<span class="upset-draw">ничья</span>' : ''}
@@ -4572,10 +4578,13 @@ function computeOtherStats(){
 
 // Analyze your group-stage predictions into a "prediction personality" — honest
 // observations (draws, per-confederation belief, scoring style, favorite-trust).
-// Only returns insights the data actually supports. reader = lg (you).
-function computeStyleProfile(reader){
+// Only returns insights the data actually supports. reader = lg (you) or
+// getOtherPred (friend). bkReader = bkGet (you) or getOtherBk (friend) — used for
+// playoff-based insights (champion). Pass null to skip those.
+function computeStyleProfile(reader, bkReader){
   const read = reader || lg;
   let totalMatches = 0, draws = 0, totalGoals = 0, blowouts = 0, filledMatches = 0;
+  let biggestWin = null; // {margin, winner, loser, score, gid}
   // Per-confederation: points your predictions GIVE each team's confederation.
   const confPts = {}, confGames = {};
   Object.entries(GD).forEach(([gid, g]) => {
@@ -4590,6 +4599,12 @@ function computeStyleProfile(reader){
       totalGoals += hg + ag;
       if(hg === ag) draws++;
       if(Math.abs(hg - ag) >= 3) blowouts++;
+      // Track the single most lopsided scoreline (a decisive win, not a draw)
+      const marg = Math.abs(hg - ag);
+      if(marg > 0 && (!biggestWin || marg > biggestWin.margin)){
+        const win = hg > ag ? hn : an, los = hg > ag ? an : hn;
+        biggestWin = {margin: marg, winner: win, loser: los, score: `${Math.max(hg,ag)}:${Math.min(hg,ag)}`, gid};
+      }
       // Award points per your predicted result, bucketed by confederation
       const hConf = CONFED[hn], aConf = CONFED[an];
       let hP, aP;
@@ -4611,16 +4626,25 @@ function computeStyleProfile(reader){
   // Build honest insight lines (only those the data backs up)
   const insights = [];
 
-  // 1. Confederation belief — highest and lowest ppg (if spread is real)
-  const confEntries = Object.entries(confPpg).sort((a,b) => b[1] - a[1]);
-  if(confEntries.length >= 2){
-    const [topC, topV] = confEntries[0];
-    const [lowC, lowV] = confEntries[confEntries.length - 1];
-    if(topV >= 1.6){
-      insights.push({icon:'📈', text:`Веришь в ${CONFED_ADJ[topC]}`, sub:`даёшь им ${topV.toFixed(1)} очка за матч — больше всех`});
+  // 1. Confederation belief — only the CHARACTERISTIC bits. UEFA/CONMEBOL are
+  // where the favorites live, so "believes in Europe" is the default for anyone
+  // and tells us nothing. What's telling: backing an UNDERDOG confederation
+  // (Africa/Asia/N.America/Oceania) unusually high, or writing one off hard.
+  const UNDERDOG_CONF = ['CAF','AFC','CONCACAF','OFC'];
+  const underdogEntries = UNDERDOG_CONF
+    .filter(c => confPpg[c] !== undefined)
+    .map(c => [c, confPpg[c]])
+    .sort((a,b) => b[1] - a[1]);
+  if(underdogEntries.length > 0){
+    const [bestC, bestV] = underdogEntries[0];
+    const [worstC, worstV] = underdogEntries[underdogEntries.length - 1];
+    // Backing an underdog confederation at ~1.3+ ppg is genuinely bold.
+    if(bestV >= 1.3){
+      insights.push({icon:'🌍', text:`Веришь в ${CONFED_ADJ[bestC]}`, sub:`даёшь им ${bestV.toFixed(1)} очка за матч — нечастая смелость`});
     }
-    if(lowV <= 1.0 && lowC !== topC){
-      insights.push({icon:'📉', text:`Не веришь в ${CONFED_ADJ[lowC]}`, sub:`всего ${lowV.toFixed(1)} очка за матч в твоих прогнозах`});
+    // Writing an underdog region off almost entirely is also characteristic.
+    if(worstV <= 0.7 && worstC !== bestC){
+      insights.push({icon:'🚫', text:`Хоронишь ${CONFED_ADJ[worstC]}`, sub:`всего ${worstV.toFixed(1)} очка за матч — почти без шансов`});
     }
   }
 
@@ -4641,6 +4665,37 @@ function computeStyleProfile(reader){
   // 4. Blowouts
   if(blowouts >= 4){
     insights.push({icon:'💥', text:'Любишь разгромы', sub:`${blowouts} матчей с разницей 3+ гола`});
+  }
+
+  // 5. Champion you're backing (from the playoff bracket, if available)
+  if(bkReader){
+    const t1s = bkReader('FIN','t1s'), t2s = bkReader('FIN','t2s');
+    const pen = bkReader('FIN','pen');
+    if(t1s !== '' && t2s !== ''){
+      const champ = (+t1s > +t2s || (+t1s === +t2s && pen === '1'))
+        ? bkReader('FIN','t1n') : bkReader('FIN','t2n');
+      if(champ){
+        const isFav = FAVORITES.has(champ);
+        insights.push({icon:'🏆', text:`Ведёшь к титулу: ${champ}`,
+          sub: isFav ? 'твой чемпион — из фаворитов' : 'твой чемпион — тёмная лошадка!'});
+      }
+    }
+  }
+
+  // 6. Biggest blowout you predicted
+  if(biggestWin && biggestWin.margin >= 3){
+    insights.push({icon:'💣', text:`Дерзкий разгром: ${biggestWin.score}`,
+      sub:`${biggestWin.winner} над ${biggestWin.loser} (гр.${biggestWin.gid}) — твой самый крупный счёт`});
+  }
+
+  // Fallbacks — never leave the portrait empty. Add neutral-but-true notes.
+  if(insights.length < 2){
+    if(!insights.some(i => i.text.includes('ничьи'))){
+      insights.push({icon:'🤝', text:`${draws} ${draws===1?'ничья':draws<5?'ничьи':'ничьих'}`, sub:`из ${filledMatches} матчей в твоих прогнозах`});
+    }
+    if(insights.length < 2){
+      insights.push({icon:'⚽', text:`${avgGoals.toFixed(1)} гола за матч`, sub:'средняя результативность твоих прогнозов'});
+    }
   }
 
   return {insights, draws, avgGoals, filledMatches, blowouts, confPpg};
