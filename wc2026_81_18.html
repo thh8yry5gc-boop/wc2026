@@ -25,7 +25,7 @@
   form-action 'none';
   frame-ancestors 'none'">
 <title>ЧМ 2026 — Прогнозы</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23fff' stroke='%23111' stroke-width='3'/%3E%3Cpolygon points='50,28 67,40 60,60 40,60 33,40' fill='%23111'/%3E%3Cpolygon points='50,4 62,16 50,24 38,16' fill='%23111'/%3E%3Cpolygon points='96,40 86,56 72,48 76,32' fill='%23111'/%3E%3Cpolygon points='80,86 62,82 64,64 82,66' fill='%23111'/%3E%3Cpolygon points='20,86 18,66 36,64 38,82' fill='%23111'/%3E%3Cpolygon points='4,40 24,32 28,48 14,56' fill='%23111'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='-105 -105 210 210'%3E%3Cdefs%3E%3CradialGradient id='b' cx='.4' cy='.3' r='.8'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.4' stop-color='%23fff'/%3E%3Cstop offset='.8' stop-color='%23EEE'/%3E%3C/radialGradient%3E%3CclipPath id='a'%3E%3Ccircle r='100' stroke-width='0'/%3E%3C/clipPath%3E%3Cg id='c' stroke-linejoin='round' clip-path='url(%23a)'%3E%3Cpath d='M6-32q20 4 40 13 11-16 18-28-14-21-27-29-20 1-36 8 3 17 5 36M-26-2q-19-6-36-9-12 16-14 33 7 18 26 32 18-7 33-15-6-24-9-41m-69 24q-7-10-7-30v88h17q-10-35-10-58m150 2Q41 41 24 52q4 13 7 27 24-1 37-12 10-17 12-32-15-7-25-11M0 120l-3-25q-22-2-39-13-8 2-18-1M-90-48q10-4 22-1 16-22 33-28 0-23-5-23h-60m200 45L87-37Q98-10 97 5l3 1'/%3E%3Cpath fill='none' d='M6-32Q-18-12-26-2m72-17q8 24 9 43m9-71q13 3 23 10M37-76q2-14-1-24M1-68q-14-9-36-9m-27 66q-5-14-6-38m-8 71q-9 2-19 0m45 32q1 16 8 28m25-43q17 9 41 13m7 27Q20 92-3 95m71-28 12 13m0-45Q90 25 97 5'/%3E%3C/g%3E%3C/defs%3E%3Ccircle r='100' fill='%23fff'/%3E%3Ccircle r='100' fill='url(%23b)'/%3E%3Cuse xlink:href='%23c' stroke='%23EEE' stroke-width='7'/%3E%3Cuse xlink:href='%23c' stroke='%23DDD' stroke-width='4'/%3E%3Cuse xlink:href='%23c' stroke='%23999' stroke-width='2'/%3E%3Cuse xlink:href='%23c' stroke='%23000'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -218,7 +218,34 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .data-menu{position:relative;display:inline-block}
 /* HOME / landing tab */
 .home-wrap{max-width:560px;margin:0 auto;padding-top:1.5rem}
-.home-trophy{text-align:center;margin-bottom:1.5rem}
+.home-greeting{text-align:center;margin-bottom:0.5rem}
+.goal-anim{width:200px;height:110px;margin:0 auto;overflow:hidden;animation:goalSceneOut 0.6s ease-in 2.6s forwards}
+.goal-anim svg{width:100%;height:100%;display:block;overflow:visible}
+.goal-ball{transform:translate(28px,74px);animation:goalShot 1.6s cubic-bezier(0.45,0,0.55,1) 0.2s both}
+@keyframes goalShot{
+  0%{transform:translate(28px,74px) scale(1)}
+  55%{transform:translate(120px,40px) scale(0.82)}
+  70%{transform:translate(150px,52px) scale(0.8)}
+  82%{transform:translate(150px,46px) scale(0.8)}
+  100%{transform:translate(150px,52px) scale(0.8)}
+}
+/* after the goal, the scene collapses away — only the greeting stays */
+@keyframes goalSceneOut{
+  0%{height:110px;opacity:1;margin-bottom:0}
+  100%{height:0;opacity:0;margin-bottom:0}
+}
+.home-hello{
+  font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;
+  color:var(--ac);letter-spacing:.02em;margin-top:4px;
+}
+.home-hello-wave{display:inline-block;animation:helloWave 1s ease-in-out 1.6s 2}
+@keyframes helloWave{0%,100%{transform:rotate(0)}25%{transform:rotate(18deg)}75%{transform:rotate(-12deg)}}
+@media(prefers-reduced-motion:reduce){
+  .goal-anim{display:none}
+  .goal-ball{animation:none}
+  .home-hello-wave{animation:none}
+}
+.home-trophy{text-align:center;margin-bottom:1.5rem;margin-top:0.5rem}
 .home-trophy svg{width:120px;height:auto;filter:drop-shadow(0 14px 32px rgba(244,208,63,0.32))}
 .home-score{padding:2rem 1.75rem;text-align:center;margin-bottom:1.5rem}
 .home-score-label{
@@ -231,6 +258,21 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .home-side-num{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1}
 .home-vs{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--b2);letter-spacing:.05em}
 .home-score-diff{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;margin-top:8px}
+.home-streak{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  max-width:560px;margin:0 auto 1.5rem;padding:12px 18px;
+  background:linear-gradient(135deg, rgba(248,113,113,0.1), rgba(244,208,63,0.08));
+  border:1px solid rgba(248,113,113,0.3);border-radius:14px;
+}
+.home-streak-fire{font-size:22px;line-height:1;animation:streakFlicker 1.6s ease-in-out infinite}
+@keyframes streakFlicker{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:0.85}}
+.home-streak-text{font-size:14px;color:var(--tx)}
+.home-streak-text b{color:var(--rd);font-size:16px}
+.home-streak-pts{
+  margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:22px;
+  color:var(--gr);line-height:1;
+}
+@media(prefers-reduced-motion:reduce){.home-streak-fire{animation:none}}
 .home-next{padding:1.5rem;text-align:center;margin-bottom:1.5rem}
 .home-next-label{
   font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mu);
@@ -242,18 +284,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:inline-flex;align-items:center;gap:7px;color:var(--rd);
   font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;margin-bottom:6px;
 }
-.home-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.home-btn{
-  background:var(--glass);border:1px solid var(--b2);color:var(--tx);
-  padding:12px 20px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:500;
-  font-family:'IBM Plex Sans',sans-serif;transition:all 0.2s;
-}
-.home-btn:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-2px)}
-.home-btn-gold{
-  background:var(--ac);color:#0a0a0a;border-color:var(--ac);font-weight:600;
-  box-shadow:0 8px 24px rgba(244,208,63,0.25);
-}
-.home-btn-gold:hover{color:#0a0a0a;transform:translateY(-2px);box-shadow:0 12px 32px rgba(244,208,63,0.4)}
 @media(max-width:480px){
   .home-score-row{gap:1.5rem}
   .home-side-num{font-size:56px}
@@ -421,11 +451,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .sep{font-size:15px;color:var(--mu);font-weight:600}
 
-/* TV BADGES */
-.tv{display:inline-flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;border-radius:9999px;font-weight:500;letter-spacing:.03em;white-space:nowrap}
-.tv-m{background:rgba(244,208,63,.15);color:var(--ac);border:1px solid rgba(244,208,63,.3)}
-.tv-o{background:rgba(103,232,249,.15);color:var(--ac2);border:1px solid rgba(103,232,249,.3)}
-
 /* UTILITY CLASSES */
 .mono{font-family:'IBM Plex Mono',monospace}
 .u-mu{color:var(--mu)}
@@ -437,7 +462,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .bracket-section-label.mu{color:var(--mu)}
 
 /* GROUPS TAB */
-.tv-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(--glass);backdrop-filter:blur(16px);border-radius:var(--r);border:1px solid var(--b2);font-size:11px;color:var(--mu);font-family:'IBM Plex Mono',monospace;align-items:center}
 .tz-btn{
   background:transparent;
   border:1px solid transparent;
@@ -612,9 +636,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   letter-spacing:.02em;
   font-weight:600;
 }
-.mtime.nsk{color:var(--ac2);font-size:10px}
-.note-row{display:flex;align-items:center;gap:6px;padding:6px 12px 8px;border-top:1px solid var(--b)}
-.ni{flex:1;background:transparent;border:none;color:var(--mu);font-size:10px;font-family:'IBM Plex Sans',sans-serif;outline:none}
 .ni::placeholder{color:#444}
 
 /* STANDINGS TAB */
@@ -886,7 +907,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .s1{background:var(--gr);color:var(--gr)}.s2{background:var(--ac);color:var(--ac)}.s3{background:var(--mu);color:var(--mu)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--mu);margin-top:10px;padding:10px 14px;background:rgba(25,25,25,.5);border-radius:var(--r);border:1px solid var(--b)}
 .li{display:flex;align-items:center;gap:6px}
-.api-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;padding:10px 14px}
+.api-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;padding:0}
+.rbtn-compact{padding:6px 12px}
 .api-input{font-size:11px;border:1px solid var(--b2);border-radius:8px;padding:6px 12px;background:var(--sf2);color:var(--tx);font-family:'IBM Plex Mono',monospace;width:240px;outline:none;transition:all 0.2s}
 .api-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(244,208,63,0.2)}
 .rbtn{display:flex;align-items:center;gap:6px;border:1px solid var(--b2);background:transparent;border-radius:9999px;padding:7px 14px;font-size:11px;color:var(--mu);cursor:pointer;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.05em;transition:all 0.2s;white-space:nowrap}
@@ -924,7 +946,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .bround{display:flex;flex-direction:column;flex-shrink:0}
 .bhead{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--mu);text-align:center;padding:0 4px 9px;border-bottom:1px solid var(--b);white-space:nowrap;margin-bottom:0;font-weight:700}
 .bslots{display:flex;flex-direction:column}
-.bslot{display:flex;align-items:center;padding:0 4px}
+.bslot{display:flex;align-items:center;justify-content:center;padding:0 4px}
 .mc{width:158px;border-radius:14px;flex-shrink:0;overflow:hidden}
 .mc.gold{border-color:var(--ac);box-shadow:0 0 30px rgba(244,208,63,0.45);width:170px}
 .mc.bronze{
@@ -1219,21 +1241,21 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   -webkit-backdrop-filter:blur(16px);
   border:1px solid var(--b2);
   border-radius:18px;
-  padding:24px;
+  padding:28px;
   position:relative;
   overflow:hidden;
   transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 .stat-card:hover{border-color:rgba(244,208,63,0.4);box-shadow:0 16px 40px rgba(244,208,63,0.12);transform:translateY(-3px)}
 .stat-card-feature{
-  border-color:rgba(244,208,63,0.3);
-  background:linear-gradient(135deg, rgba(244,208,63,0.04), var(--glass));
-  box-shadow:0 8px 24px rgba(244,208,63,0.08);
+  border-color:rgba(244,208,63,0.35);
+  background:linear-gradient(135deg, rgba(244,208,63,0.06), var(--glass));
+  box-shadow:0 8px 28px rgba(244,208,63,0.1);
 }
-.stat-card-feature:hover{border-color:rgba(244,208,63,0.55);box-shadow:0 20px 50px rgba(244,208,63,0.18)}
-.stat-card-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:14px}
-.stat-card-big{font-family:'Bebas Neue',sans-serif;font-size:64px;line-height:1;color:var(--ac);letter-spacing:.02em}
-.stat-card-big .suffix{font-size:26px;color:var(--mu);font-weight:400;letter-spacing:0}
+.stat-card-feature:hover{border-color:rgba(244,208,63,0.6);box-shadow:0 20px 54px rgba(244,208,63,0.2);transform:translateY(-3px)}
+.stat-card-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:14px}
+.stat-card-big{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;color:var(--ac);letter-spacing:.02em}
+.stat-card-big .suffix{font-size:28px;color:var(--mu);font-weight:400;letter-spacing:0}
 .stat-card-sub{font-size:13px;color:var(--mu);margin-top:10px;line-height:1.5}
 .progress-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden;margin:16px 0 10px;position:relative}
 .progress-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,var(--gr) 0%, var(--ac) 100%);transition:width 0.6s cubic-bezier(0.4,0,0.2,1);position:relative}
@@ -1241,24 +1263,24 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 @keyframes progressShine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 .risk-meter{
   position:relative;
-  height:14px;
+  height:18px;
   background:linear-gradient(90deg,
     rgba(187,187,187,0.3) 0%,rgba(187,187,187,0.3) 30%,
     rgba(103,232,249,0.3) 30%,rgba(103,232,249,0.3) 60%,
     rgba(244,208,63,0.3) 60%,rgba(244,208,63,0.3) 80%,
     rgba(248,113,113,0.3) 80%,rgba(248,113,113,0.3) 100%);
   border-radius:9999px;
-  margin:18px 0 8px;
+  margin:20px 0 10px;
   border:1px solid var(--b);
 }
 .risk-marker{
   position:absolute;
-  top:-7px;
-  width:4px;
-  height:28px;
+  top:-8px;
+  width:5px;
+  height:34px;
   background:#fff;
-  border-radius:2px;
-  box-shadow:0 0 14px var(--ac), 0 0 4px #fff;
+  border-radius:3px;
+  box-shadow:0 0 16px var(--ac), 0 0 5px #fff;
   transition:left 0.7s cubic-bezier(0.34,1.56,0.64,1);
   transform:translateX(-50%);
 }
@@ -1281,42 +1303,62 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .group-insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:16px}
 .group-compact-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(72px,1fr));
-  gap:8px;
+  grid-template-columns:repeat(auto-fit,minmax(84px,1fr));
+  gap:10px;
   margin-bottom:24px;
 }
 .group-compact{
   position:relative;
   text-align:center;
-  padding:12px 6px 10px;
+  padding:12px 8px;
   background:var(--glass);
   border:1px solid var(--b2);
-  border-radius:12px;
-  transition:all 0.2s;
+  border-radius:14px;
+  transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 .group-compact:hover{transform:translateY(-3px);border-color:rgba(244,208,63,0.4);box-shadow:0 10px 24px rgba(244,208,63,0.15)}
 .group-compact.boldest{border-color:rgba(244,208,63,0.5);box-shadow:0 0 14px rgba(244,208,63,0.18)}
 .group-compact.surprise{border-color:rgba(103,232,249,0.5);box-shadow:0 0 14px rgba(103,232,249,0.18)}
+.group-compact.perfect{border-color:rgba(74,222,128,0.6);box-shadow:0 0 18px rgba(74,222,128,0.25);background:linear-gradient(135deg, rgba(74,222,128,0.08), var(--glass))}
 .group-compact-marker{
   position:absolute;
-  top:-8px;
-  right:-6px;
-  font-size:14px;
+  top:-9px;
+  right:-7px;
+  font-size:15px;
   line-height:1;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));
 }
 .group-compact-letter{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:24px;
-  color:var(--ac);
-  line-height:1;
-  letter-spacing:.02em;
-}
-.group-compact-pct{
   font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
+  font-size:13px;
   font-weight:700;
+  color:var(--mu);
+  line-height:1;
+  letter-spacing:.08em;
+  padding-bottom:10px;
+  margin-bottom:10px;
+  border-bottom:1px solid var(--b);
+}
+.group-compact-pts{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:34px;
+  font-weight:400;
+  line-height:1;
+}
+.gc-pts-suffix{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  color:var(--mu);
+  margin-left:3px;
+  font-weight:600;
+  text-transform:uppercase;
+}
+.group-compact-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  color:var(--mu);
   margin-top:4px;
+  letter-spacing:.03em;
 }
 .heroes-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
 @media(max-width:600px){.heroes-grid{grid-template-columns:1fr}}
@@ -1328,6 +1370,28 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .hero-card-title > span{color:var(--mu);font-weight:400;font-size:11px;text-transform:none;letter-spacing:0}
 .hero-card.heroes .hero-card-title{color:var(--gr)}
 .hero-card.villains .hero-card-title{color:var(--rd)}
+/* Tournament hero/villain rows — with flags + status pill */
+.trow{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--b)}
+.trow:last-child{border-bottom:none}
+.trow-flag{font-size:22px;line-height:1;flex-shrink:0}
+.trow-name{font-size:15px;font-weight:600;color:var(--tx);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mu);flex-shrink:0;white-space:nowrap}
+.trow-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;padding:3px 9px;border-radius:9999px;flex-shrink:0;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+.trow-tag.hit{background:rgba(74,222,128,0.16);color:var(--gr)}
+.trow-tag.miss{background:rgba(255,255,255,0.05);color:var(--mu)}
+/* Real upsets — flag-led cards that never wrap */
+.upsets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.upset-card{background:linear-gradient(135deg,rgba(244,208,63,0.08),rgba(244,208,63,0.02));border:1px solid rgba(244,208,63,0.35);border-radius:14px;padding:14px;transition:transform 0.2s,box-shadow 0.2s}
+.upset-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(244,208,63,0.18)}
+.upset-score-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(244,208,63,0.18)}
+.upset-score{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--ac);line-height:1;letter-spacing:.03em}
+.upset-draw{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;background:rgba(244,208,63,0.15);padding:2px 7px;border-radius:6px}
+.upset-place{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.upset-team{display:flex;align-items:center;gap:9px;padding:4px 0}
+.upset-flag{font-size:20px;line-height:1;flex-shrink:0}
+.upset-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.upset-team.winner .upset-name{color:var(--ac);font-weight:700}
+.upset-team.loser .upset-name{color:var(--mu);opacity:0.75}
 .hero-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--b);font-size:14px}
 .hero-row:last-child{border-bottom:none}
 .hero-flag{font-size:24px;line-height:1}
@@ -1369,6 +1433,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-weight:600;
   margin-bottom:8px;
 }
+.duel-style-hint{font-size:12px;color:var(--mu);margin:-6px 0 14px;line-height:1.5;opacity:0.85}
 .duel-risk{
   font-family:'Bebas Neue',sans-serif;
   font-size:56px;
@@ -2099,7 +2164,6 @@ const BK={
 /* ═══════════════════════════════════════════════════════
    CONSTANTS
    ═══════════════════════════════════════════════════════ */
-const NSK_OFFSET = 4;                  // НСК = МСК + 4ч
 const TOAST_MS = 1600;                 // длительность тоста
 const SAVE_DEBOUNCE_MS = 300;          // дебаунс для уведомления "сохранено"
 const FUZZY_MATCH_LEN = 4;             // длина префикса для fuzzy-сравнения имён команд
@@ -2273,12 +2337,6 @@ function openSquad(teamName){
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
-function nsk(msk){
-  const [h,m] = msk.split(':').map(Number);
-  const nh = (h + NSK_OFFSET) % 24;
-  return String(nh).padStart(2,'0')+':'+String(m).padStart(2,'0');
-}
-
 // Convert "HH:MM" MSK + date string ("11 июн") into the user's local timezone.
 // We need a full Date for that, so we map RU month names → numbers.
 // All matches are in 2026.
@@ -2325,7 +2383,23 @@ function doLogin(){
   try{const r=localStorage.getItem('wc26_upcoming_matches');if(r)upcomingMatches=JSON.parse(r);}catch(e){}
   updateLiveBadge();
   renderHome();
-  toast(`Привет, ${USER}`,'info');
+
+  // Auto-pull live results on login so Home shows fresh data without the user
+  // hunting for a refresh button. Silent (no toast). Worker mode needs no key.
+  if(USE_WORKER || localStorage.getItem('wc26_apikey')){
+    fetchRealMatches(true).then(() => {
+      updateLiveBadge();
+      // Re-render whichever tab is currently visible so it reflects fresh data.
+      const visible = ['home','groups','standings','bracket','champion','stats']
+        .find(t => { const el = document.getElementById('tab-'+t); return el && el.style.display !== 'none'; });
+      if(visible === 'home') renderHome();
+      else if(visible === 'groups') renderGroups();
+      else if(visible === 'standings') renderStandings();
+      else if(visible === 'bracket') renderBracket();
+      else if(visible === 'champion') renderChampion();
+      else if(visible === 'stats') renderStats();
+    }).catch(()=>{});
+  }
 }
 
 // Toggle the small dropdown in the header that hides data-management actions
@@ -2488,14 +2562,13 @@ function toggleMatchDetail(rowEl){
 }
 
 function renderGroups(){
-  let h=`<div class="tv-legend"><span style="margin-right:4px">Трансляция в РФ:</span><span class="tv tv-m">Матч ТВ</span> — все 104 матча бесплатно &nbsp;·&nbsp; <span class="tv tv-o">Окко</span> — топ-матчи + ретрансляция</div><div class="groups-grid">`;
+  let h=`<div class="groups-grid">`;
   Object.entries(GD).forEach(([gid,g])=>{
     h+=`<div class="gc"><div class="gh"><span class="gl">${gid}</span><div class="gt">${g.t.map(([f,n])=>`${f} ${n}`).join(' · ')}</div></div>`;
     g.m.forEach(([hi,ai,d,t,tv],i)=>{
       const mid=`g${gid}_${i}`;
       const [fh,nh]=g.t[hi],[fa,na]=g.t[ai];
       const vh=lg(mid+'_h'),va=lg(mid+'_a'),vn=lg(mid+'_n');
-      const tvb=(tv.includes('M')?`<span class="tv tv-m">Матч ТВ</span> `:'')+(tv.includes('O')?`<span class="tv tv-o">Окко</span>`:'');
       const isFilled = vh !== '' && va !== '';
       // Check if real result exists for this match
       const real = findRealForGroupMatch(gid, i);
@@ -2533,8 +2606,7 @@ function renderGroups(){
         <span class="mr-detail-label">факт:</span>
         <span class="mr-detail-score">${real.realH} : ${real.realA}</span>
         ${real.pts !== null ? `<span class="mr-detail-pts mr-pts-${real.kind}">${real.kind==='full'?'точно угадал':real.kind==='near'?'близко к счёту':real.kind==='part'?'верный исход':'мимо'} · ${resultLabel} ${real.pts===1?'очко':real.pts<5?'очка':'очков'}</span>` : '<span class="mr-detail-pts" style="opacity:0.6">прогноз не заполнен</span>'}
-      </div>` : ''}
-      <div class="note-row">${tvb || '<span style="opacity:0.3;font-size:10px;color:var(--mu)">—</span>'}</div>`;
+      </div>` : ''}`;
     });
     h+='</div>';
   });
@@ -2813,11 +2885,10 @@ function renderStandings(targetId){
   h+=`</div>
   <div class="api-row">
     ${USE_WORKER ? '' : `<input class="api-input" id="apikey-input" type="password" placeholder="API ключ football-data.org" value="${apiKey}" oninput="localStorage.setItem('wc26_apikey',this.value)">`}
-    <button class="rbtn" id="rfbtn" onclick="fetchReal()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-      Обновить реальные
+    <button class="rbtn rbtn-compact" id="rfbtn" onclick="fetchReal()" title="Обновить реальные результаты">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Обновить
     </button>
-    <span style="font-size:11px;color:var(--mu)">${USE_WORKER ? 'данные с football-data.org' : 'бесплатно на football-data.org'}</span>
   </div>
   <div class="std-tabs">
     <button class="stab${curStdView==='me'?' on':''}"      onclick="curStdView='me';setStab(0);renderStandingsBody()">Мои прогнозы</button>
@@ -3308,6 +3379,19 @@ const RU_NAME_MAP = {
   'Ghana':'Гана','Czech Republic':'Чехия','Czechia':'Чехия'
 };
 
+// Map a team's Russian name to its flag emoji (built once from GD group data).
+let _flagMapCache = null;
+function flagForTeam(name){
+  if(!name) return '';
+  if(!_flagMapCache){
+    _flagMapCache = {};
+    for(const g of Object.values(GD)){
+      for(const [flag, nm] of g.t){ _flagMapCache[nm] = flag; }
+    }
+  }
+  return _flagMapCache[name] || '';
+}
+
 function ruName(apiName){
   if(!apiName) return null;
   if(RU_NAME_MAP[apiName]) return RU_NAME_MAP[apiName];
@@ -3700,6 +3784,32 @@ function computeLiveScore(){
   };
 }
 
+// Current "hot streak": consecutive match-days (ending at the most recent day
+// that had results) on which you scored at least 1 point. Returns {days, pts}.
+// A day with played matches but 0 points breaks the streak.
+function computeStreak(){
+  if(!realMatches || realMatches.length === 0) return {days: 0, pts: 0};
+  // Group scored/played matches by UTC calendar day → points that day.
+  const byDay = {}; // 'YYYY-MM-DD' → {pts, played}
+  realMatches.forEach(rm => {
+    if(rm.hs == null || rm.as == null) return; // only played matches
+    const d = new Date(rm.utc);
+    const key = `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+    if(!byDay[key]) byDay[key] = {pts: 0, played: 0, ts: Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())};
+    byDay[key].played++;
+    const sc = scoreRealMatch(rm);
+    if(sc) byDay[key].pts += sc.pts;
+  });
+  // Sort days descending by timestamp, walk while pts > 0.
+  const days = Object.values(byDay).sort((a,b) => b.ts - a.ts);
+  let streak = 0, total = 0;
+  for(const day of days){
+    if(day.pts > 0){ streak++; total += day.pts; }
+    else break;
+  }
+  return {days: streak, pts: total};
+}
+
 function updateLiveBadge(){
   const el = document.getElementById('live-badge');
   const txt = document.getElementById('live-badge-text');
@@ -3718,7 +3828,7 @@ function updateLiveBadge(){
   el.classList.toggle('zero', live.todayPts === 0);
   txt.textContent = live.todayPts > 0
     ? `+${live.todayPts} сегодня`
-    : `${live.todayCount} ${live.todayCount===1?'матч':'матчей'} сегодня`;
+    : 'сегодня ничего не угадал (пока)';
 }
 
 // Compute friend's live points against real matches.
@@ -3891,6 +4001,49 @@ function renderLiveSection(){
       // Solo: no friend data — just the scoreboard, full width.
       html += `<div class="stats-scoreboard">${buildScoreboard()}</div>`;
     }
+
+    // ── Стиль прогнозов: risk-profile comparison (part of the duel area —
+    // "кто как ставит", complements the "кто угадал" block above) ──
+    const sStats = computeStats();
+    const oStats2 = computeOtherStats();
+    if(oStats2){
+      const lvlS = riskLevel(sStats.risk);
+      const oLvlS = riskLevel(oStats2.risk);
+      const rcMe = sStats.risk < 55 ? 'var(--mu)' : sStats.risk < 70 ? 'var(--ac2)' : sStats.risk < 80 ? 'var(--ac)' : 'var(--rd)';
+      const rcO = oStats2.risk < 55 ? 'var(--mu)' : oStats2.risk < 70 ? 'var(--ac2)' : oStats2.risk < 80 ? 'var(--ac)' : 'var(--rd)';
+      const meBolderS = sStats.risk > oStats2.risk;
+      const tieS = sStats.risk === oStats2.risk;
+      html += `<div class="stats-section-head">Стиль прогнозов</div>
+      <div class="duel-style-hint">Не «кто угадал», а «кто как ставит» — насколько дерзкие у вас прогнозы</div>
+      <div class="duel-grid">
+        <div class="duel-card ${meBolderS ? 'duel-winner' : ''}">
+          <div class="duel-name">Ты</div>
+          <div class="duel-risk" style="color:${rcMe}">${sStats.risk}</div>
+          <div class="duel-tag"><span class="risk-style-tag ${lvlS.cls}">${lvlS.label}</span></div>
+          <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${sStats.upsets}</b></div>
+          <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${sStats.fadedFavorites.length}</b></div>
+          <div class="duel-row"><span>Заполнено:</span><b>${sStats.fillPercent}%</b></div>
+        </div>
+        <div class="duel-vs">${tieS ? '=' : 'vs'}</div>
+        <div class="duel-card ${!meBolderS && !tieS ? 'duel-winner' : ''}">
+          <div class="duel-name">${getOtherName()}</div>
+          <div class="duel-risk" style="color:${rcO}">${oStats2.risk}</div>
+          <div class="duel-tag"><span class="risk-style-tag ${oLvlS.cls}">${oLvlS.label}</span></div>
+          <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${oStats2.upsets}</b></div>
+          <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${oStats2.fadedFavorites.length}</b></div>
+          <div class="duel-row"><span>Заполнено:</span><b>${oStats2.fillPercent}%</b></div>
+        </div>
+      </div>`;
+      const riskDiffS = Math.abs(sStats.risk - oStats2.risk);
+      let verdictS;
+      if(tieS){
+        verdictS = `Оба одинаково дерзкие · по ${sStats.upsets} ${sStats.upsets===1?'сенсации':'сенсаций'} в прогнозах`;
+      } else {
+        const leaderS = meBolderS ? 'Ты' : getOtherName();
+        verdictS = `${leaderS} на ${riskDiffS} ${riskDiffS===1?'пункт':riskDiffS<5?'пункта':'пунктов'} рискованнее`;
+      }
+      html += `<div class="duel-verdict">${verdictS}</div>`;
+    }
   }
 
   // ── Точность прогнозов: tally my exact/near/part/miss from scored matches ──
@@ -3981,10 +4134,11 @@ function renderLiveSection(){
     } else {
       live.realHeroes.slice(0,6).forEach(h => {
         const matched = live.myHeroNames.has(h.name);
-        html += `<div class="hero-row">
-          <span class="hero-name">${esc(h.name)}</span>
-          <span class="hero-stats">${h.pos}-й · ${esc(h.pts)}о · гр.${h.gid}</span>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;${matched?'color:var(--gr)':'color:var(--mu);opacity:0.5'}" title="${matched?'Ты тоже предсказал':'Ты не угадал'}">${matched?'✓ ты тоже':'✗ ты не'}</span>
+        html += `<div class="trow">
+          <span class="trow-flag">${flagForTeam(h.name)}</span>
+          <span class="trow-name">${esc(h.name)}</span>
+          <span class="trow-meta">${h.pos}-й · ${esc(h.pts)}о · гр.${h.gid}</span>
+          <span class="trow-tag ${matched?'hit':'miss'}" title="${matched?'Ты тоже предсказал':'Ты не угадал'}">${matched?'✓ ты тоже':'✗ мимо'}</span>
         </div>`;
       });
     }
@@ -3998,10 +4152,11 @@ function renderLiveSection(){
     } else {
       live.realVillains.slice(0,6).forEach(v => {
         const matched = live.myVillainNames.has(v.name);
-        html += `<div class="hero-row">
-          <span class="hero-name">${esc(v.name)}</span>
-          <span class="hero-stats">${v.pos}-й · ${esc(v.pts)}о · гр.${v.gid}</span>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;${matched?'color:var(--gr)':'color:var(--mu);opacity:0.5'}" title="${matched?'Ты предсказал провал':'Ты не угадал'}">${matched?'✓ ты тоже':'✗ ты не'}</span>
+        html += `<div class="trow">
+          <span class="trow-flag">${flagForTeam(v.name)}</span>
+          <span class="trow-name">${esc(v.name)}</span>
+          <span class="trow-meta">${v.pos}-й · ${esc(v.pts)}о · гр.${v.gid}</span>
+          <span class="trow-tag ${matched?'hit':'miss'}" title="${matched?'Ты предсказал провал':'Ты не угадал'}">${matched?'✓ ты тоже':'✗ мимо'}</span>
         </div>`;
       });
     }
@@ -4018,17 +4173,23 @@ function renderLiveSection(){
           <span style="color:var(--gr);font-weight:700">${live.upsetsMatched}</span>
         </span>
       </div>
-      <div class="live-matches-scroll">`;
+      <div class="upsets-grid">`;
     live.realUpsets.slice(0, 8).forEach(u => {
-      const scoreStr = u.isDraw ? `${u.hs}:${u.as} ничья` : `${u.hs}:${u.as}`;
-      html += `<div class="live-match-card" style="border-color:rgba(244,208,63,0.4);background:rgba(244,208,63,0.05)">
-        <div class="lm-teams">
-          <div class="lm-team"><span class="name" style="color:var(--ac);font-weight:600">${esc(u.winner)}</span></div>
-          <div class="lm-team"><span class="name" style="opacity:0.6">${esc(u.loser)}</span></div>
+      const scoreStr = `${u.hs}:${u.as}`;
+      const place = u.group ? 'гр. '+u.group : (u.stage||'').replace('_',' ').toLowerCase();
+      html += `<div class="upset-card">
+        <div class="upset-score-row">
+          <span class="upset-score">${scoreStr}</span>
+          ${u.isDraw ? '<span class="upset-draw">ничья</span>' : ''}
+          <span class="upset-place">${place}</span>
         </div>
-        <div class="lm-scores" style="border-top-color:rgba(244,208,63,0.2)">
-          <span style="color:var(--ac);font-family:'IBM Plex Mono',monospace">${scoreStr}</span>
-          <span style="font-size:9px;color:var(--mu);text-transform:uppercase">${u.group ? 'гр. '+u.group : (u.stage||'').replace('_',' ').toLowerCase()}</span>
+        <div class="upset-team winner">
+          <span class="upset-flag">${flagForTeam(u.winner)}</span>
+          <span class="upset-name">${esc(u.winner)}</span>
+        </div>
+        <div class="upset-team loser">
+          <span class="upset-flag">${flagForTeam(u.loser)}</span>
+          <span class="upset-name">${esc(u.loser)}</span>
         </div>
       </div>`;
     });
@@ -4190,6 +4351,17 @@ function computeOtherStats(){
     });
   });
 
+  // Points earned per group for the friend (same reader as their predictions).
+  const otherGroupPts = {};
+  Object.entries(GD).forEach(([gid, g]) => {
+    let gPts = 0, gPlayed = 0;
+    g.m.forEach((_, i) => {
+      const rr = findRealForGroupMatch(gid, i, getOtherPred);
+      if(rr){ gPlayed++; if(rr.pts != null) gPts += rr.pts; }
+    });
+    otherGroupPts[gid] = {pts: gPts, played: gPlayed};
+  });
+
   // Faded favorites — using friend's predicted standings.
   // We compute them by mimicking calcStd but pulling other's scores.
   Object.entries(GD).forEach(([gid, g]) => {
@@ -4284,7 +4456,9 @@ function computeOtherStats(){
       filled: gFilled, total: g.m.length,
       percent: Math.round(gFilled/g.m.length*100),
       upsets: gUpsets,
-      underdogLeader
+      underdogLeader,
+      pts: (otherGroupPts[gid] || {}).pts || 0,
+      played: (otherGroupPts[gid] || {}).played || 0
     };
   });
   const heroes = [], villains = [], fadedFavoritesList = [];
@@ -4307,10 +4481,13 @@ function computeStats(){
 
   Object.entries(GD).forEach(([gid, g]) => {
     let filled = 0;
+    let gPts = 0, gPlayed = 0; // points earned + matches played (with results) in this group
     g.m.forEach((_, i) => {
       totalMatches++;
       const mid = `g${gid}_${i}`;
       if(lg(mid+'_h') !== '' && lg(mid+'_a') !== ''){ filled++; filledMatches++; }
+      const rr = findRealForGroupMatch(gid, i, lg);
+      if(rr){ gPlayed++; if(rr.pts != null) gPts += rr.pts; }
     });
 
     // Per-group upset count — how many times an underdog beat or drew with a favorite
@@ -4358,7 +4535,8 @@ function computeStats(){
       filled, total: g.m.length,
       percent: Math.round(filled/g.m.length*100),
       upsets: groupUpsets,
-      underdogLeader
+      underdogLeader,
+      pts: gPts, played: gPlayed
     };
   });
 
@@ -4741,11 +4919,23 @@ function buildScoreboard(){
             const rH = direct ? rm.hs : rm.as, rA = direct ? rm.as : rm.hs;
             if(myH !== '' && myA !== ''){
               if(+myH===rH && +myA===rA) myAcc += POINTS_EXACT;
-              else { const mo=+myH>+myA?'H':+myH<+myA?'A':'D', ro=rH>rA?'H':rH<rA?'A':'D'; if(mo===ro) myAcc += POINTS_OUTCOME; }
+              else {
+                const mo=+myH>+myA?'H':+myH<+myA?'A':'D', ro=rH>rA?'H':rH<rA?'A':'D';
+                if(mo===ro){
+                  const closeEach = Math.abs(+myH-rH)<=1 && Math.abs(+myA-rA)<=1;
+                  myAcc += closeEach ? POINTS_NEAR : POINTS_OUTCOME;
+                }
+              }
             }
             if(thH !== '' && thA !== ''){
               if(+thH===rH && +thA===rA) thAcc += POINTS_EXACT;
-              else { const to=+thH>+thA?'H':+thH<+thA?'A':'D', ro=rH>rA?'H':rH<rA?'A':'D'; if(to===ro) thAcc += POINTS_OUTCOME; }
+              else {
+                const to=+thH>+thA?'H':+thH<+thA?'A':'D', ro=rH>rA?'H':rH<rA?'A':'D';
+                if(to===ro){
+                  const closeEach = Math.abs(+thH-rH)<=1 && Math.abs(+thA-rA)<=1;
+                  thAcc += closeEach ? POINTS_NEAR : POINTS_OUTCOME;
+                }
+              }
             }
           }
         });
@@ -4809,62 +4999,10 @@ function renderStats(){
   // The timer auto-stops when the tab is no longer visible.
   setTimeout(startNextMatchTimer, 0);
 
-  // ── Duel block: side-by-side comparison with friend's predictions ──
-  // Only shown if a friend's JSON has been imported.
+  // (Стиль прогнозов / risk comparison moved up into the duel area in
+  //  renderLiveSection, right after «Вы двое» — see there.)
+  // oStats still needed below for the "чьи данные" source toggle + src picker.
   const oStats = computeOtherStats();
-  if(oStats){
-    const oLvl = riskLevel(oStats.risk);
-    const oRiskColor = oStats.risk < 55 ? 'var(--mu)' : oStats.risk < 70 ? 'var(--ac2)' : oStats.risk < 80 ? 'var(--ac)' : 'var(--rd)';
-    const meBolder = s.risk > oStats.risk;
-    const tie = s.risk === oStats.risk;
-
-    html += `<div class="section-title">⚔ Дуэль прогнозов</div>
-    <div class="duel-grid">
-      <div class="duel-card ${meBolder ? 'duel-winner' : ''}">
-        <div class="duel-name">Ты</div>
-        <div class="duel-risk" style="color:${riskColor}">${s.risk}</div>
-        <div class="duel-tag"><span class="risk-style-tag ${lvl.cls}">${lvl.label}</span></div>
-        <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${s.upsets}</b></div>
-        <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${s.fadedFavorites.length}</b></div>
-        <div class="duel-row"><span>Заполнено:</span><b>${s.fillPercent}%</b></div>
-      </div>
-      <div class="duel-vs">${tie ? '=' : 'vs'}</div>
-      <div class="duel-card ${!meBolder && !tie ? 'duel-winner' : ''}">
-        <div class="duel-name">Второй игрок</div>
-        <div class="duel-risk" style="color:${oRiskColor}">${oStats.risk}</div>
-        <div class="duel-tag"><span class="risk-style-tag ${oLvl.cls}">${oLvl.label}</span></div>
-        <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${oStats.upsets}</b></div>
-        <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${oStats.fadedFavorites.length}</b></div>
-        <div class="duel-row"><span>Заполнено:</span><b>${oStats.fillPercent}%</b></div>
-      </div>
-    </div>`;
-
-    // Build a descriptive verdict that explains *how* risk profiles differ
-    const riskDiff = Math.abs(s.risk - oStats.risk);
-    let verdict;
-    if(tie){
-      verdict = `Оба одинаково дерзкие · по ${s.upsets} ${s.upsets===1?'сенсации':'сенсаций'} в прогнозах`;
-    } else {
-      const leader = meBolder ? 'Ты' : 'Второй игрок';
-      const follower = meBolder ? 'второй' : 'ты';
-      const lUpsets = meBolder ? s.upsets : oStats.upsets;
-      const fUpsets = meBolder ? oStats.upsets : s.upsets;
-      const lFaded = meBolder ? s.fadedFavorites.length : oStats.fadedFavorites.length;
-      const fFaded = meBolder ? oStats.fadedFavorites.length : s.fadedFavorites.length;
-      let detail;
-      if(lUpsets >= fUpsets + 3){
-        detail = ` — закладываешь ${lUpsets} сенсаций против ${fUpsets} у ${meBolder ? 'второго' : 'тебя'}, ${follower} играет осторожнее.`;
-      } else if(lFaded >= fFaded + 2){
-        detail = ` — отправляешь ${lFaded} фаворитов мимо плейофф, ${follower} верит в классику.`;
-      } else if(riskDiff >= 15){
-        detail = ' — заметная разница в подходе.';
-      } else {
-        detail = ' — но в целом стили похожи.';
-      }
-      verdict = `${leader} на ${riskDiff} ${riskDiff===1?'пункт':riskDiff<5?'пункта':'пунктов'} рискованнее${detail}`;
-    }
-    html += `<div class="duel-verdict">${verdict}</div>`;
-  }
 
   html += `<div class="section-title">📊 Общая статистика</div>
     <div class="stats-grid">`;
@@ -4895,7 +5033,7 @@ function renderStats(){
       </div>
     </div>
 
-    <div class="section-title">По группам</div>`;
+    <div class="section-title">Очки по группам</div>`;
 
   // If a second player's data is loaded, allow viewing the section below
   // ("По группам" + "Герои/Антигерои") from either player's perspective.
@@ -4934,21 +5072,26 @@ function renderStats(){
     }
   });
 
+  // These two cards describe the PREDICTIONS (whose = the src toggle), not real
+  // outcomes — so word them as "predicted", to avoid reading as live results.
+  const whoseAdj = (curStatsSrc === 'other' && oStats) ? `${getOtherName()} заложил` : 'ты заложил';
+  const whosePred = (curStatsSrc === 'other' && oStats) ? `в прогнозе ${getOtherName()}` : 'в твоём прогнозе';
+
   html += `<div class="group-insights-grid">`;
 
   if(boldest){
     html += `<div class="stat-card" style="border-color:rgba(244,208,63,0.4);box-shadow:0 0 18px rgba(244,208,63,0.12)">
-      <div class="stat-card-label">🔥 Самая дерзкая</div>
+      <div class="stat-card-label">🔥 Самый смелый прогноз</div>
       <div style="font-size:32px;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em">Группа ${boldest.gid}</div>
-      <div class="stat-card-sub" style="color:var(--ac)">${boldest.upsets} ${boldest.upsets === 1 ? 'сенсация' : boldest.upsets < 5 ? 'сенсации' : 'сенсаций'} в матчах</div>
+      <div class="stat-card-sub" style="color:var(--ac)">${whoseAdj} ${boldest.upsets} ${boldest.upsets === 1 ? 'сенсацию' : 'сенсаций'} — больше всех</div>
     </div>`;
   }
 
   if(surprise){
     html += `<div class="stat-card" style="border-color:rgba(103,232,249,0.4);box-shadow:0 0 18px rgba(103,232,249,0.12)">
-      <div class="stat-card-label">🎲 Самая неожиданная</div>
+      <div class="stat-card-label">🎲 Неожиданный расклад</div>
       <div style="font-size:32px;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em">Группа ${surprise.gid}</div>
-      <div class="stat-card-sub" style="color:var(--ac2)">${surprise.flag} ${esc(surprise.name)} лидирует${surprise.bestFavName ? ` — ${esc(surprise.bestFavName)} только ${surprise.bestFavPos}-й` : ''}</div>
+      <div class="stat-card-sub" style="color:var(--ac2)">${whosePred}: ${surprise.flag} ${esc(surprise.name)} 1-й${surprise.bestFavName ? `, ${esc(surprise.bestFavName)} только ${surprise.bestFavPos}-й` : ''}</div>
     </div>`;
   }
 
@@ -4959,15 +5102,30 @@ function renderStats(){
   html += `<div class="group-compact-grid">`;
   GKEYS.forEach(gid => {
     const stat = src.groupStats[gid];
-    const color = stat.percent >= 100 ? 'var(--gr)' : stat.percent >= 50 ? 'var(--ac)' : stat.percent > 0 ? 'var(--ac2)' : 'var(--mu)';
+    const played = stat.played || 0;
+    const pts = stat.pts || 0;
+    // "Perfect" = every played match in this group was an exact score (max points).
+    const isPerfect = played > 0 && pts === played * POINTS_EXACT;
     const isBoldest = boldest && boldest.gid === gid;
     const isSurprise = surprise && surprise.gid === gid;
-    const extra = isBoldest ? ' boldest' : isSurprise ? ' surprise' : '';
-    const marker = isBoldest ? '<div class="group-compact-marker">🔥</div>' : isSurprise ? '<div class="group-compact-marker">🎲</div>' : '';
+    // Priority: perfect (your achievement) > boldest > surprise — only one marker.
+    const extra = isPerfect ? ' perfect' : isBoldest ? ' boldest' : isSurprise ? ' surprise' : '';
+    const marker = isPerfect ? '<div class="group-compact-marker">💎</div>'
+      : isBoldest ? '<div class="group-compact-marker">🔥</div>'
+      : isSurprise ? '<div class="group-compact-marker">🎲</div>' : '';
+    let valHtml, valColor;
+    if(played === 0){
+      valHtml = '—';
+      valColor = 'var(--mu)';
+    } else {
+      valHtml = `${pts}<span class="gc-pts-suffix">очк${pts===1?'о':pts<5?'а':'ов'}</span>`;
+      valColor = pts >= played * 4 ? 'var(--gr)' : pts >= played ? 'var(--ac)' : pts > 0 ? 'var(--ac2)' : 'var(--rd)';
+    }
     html += `<div class="group-compact${extra}">
       ${marker}
       <div class="group-compact-letter">${gid}</div>
-      <div class="group-compact-pct" style="color:${color}">${stat.percent}%</div>
+      <div class="group-compact-pts" style="color:${valColor}">${valHtml}</div>
+      <div class="group-compact-sub">${played > 0 ? `${played} ${played===1?'матч':played<5?'матча':'матчей'}` : 'не сыграно'}</div>
     </div>`;
   });
   html += `</div>`;
@@ -5054,6 +5212,8 @@ function renderHome(){
     : 'Идёте вровень';
   const leadColor = lead > 0 ? 'var(--gr)' : lead < 0 ? 'var(--ac2)' : 'var(--mu)';
 
+  const streak = computeStreak();
+
   // Next / live match
   const live = liveNowMatch();
   const next = nextUpcomingMatch();
@@ -5073,6 +5233,30 @@ function renderHome(){
 
   const html = `
     <div class="home-wrap">
+      <div class="home-greeting">
+        <div class="goal-anim">
+          <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <!-- goal frame -->
+            <g stroke="rgba(255,255,255,0.55)" stroke-width="3" fill="none" stroke-linecap="round">
+              <rect x="112" y="20" width="74" height="64" rx="2"/>
+            </g>
+            <!-- net -->
+            <g stroke="rgba(255,255,255,0.14)" stroke-width="1">
+              <line x1="112" y1="36" x2="186" y2="36"/><line x1="112" y1="52" x2="186" y2="52"/><line x1="112" y1="68" x2="186" y2="68"/>
+              <line x1="130" y1="20" x2="130" y2="84"/><line x1="149" y1="20" x2="149" y2="84"/><line x1="168" y1="20" x2="168" y2="84"/>
+            </g>
+            <!-- ball (Wikimedia soccer ball, scaled into the scene) -->
+            <g class="goal-ball">
+              <g transform="scale(0.11) translate(-100,-100)">
+                <defs><radialGradient id="gb" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff"/><stop offset=".8" stop-color="#EEE"/></radialGradient><clipPath id="ga"><circle r="100" stroke-width="0"/></clipPath><g id="gc" stroke-linejoin="round" clip-path="url(#ga)"><path d="M6-32q20 4 40 13 11-16 18-28-14-21-27-29-20 1-36 8 3 17 5 36M-26-2q-19-6-36-9-12 16-14 33 7 18 26 32 18-7 33-15-6-24-9-41m-69 24q-7-10-7-30v88h17q-10-35-10-58m150 2Q41 41 24 52q4 13 7 27 24-1 37-12 10-17 12-32-15-7-25-11M0 120l-3-25q-22-2-39-13-8 2-18-1M-90-48q10-4 22-1 16-22 33-28 0-23-5-23h-60m200 45L87-37Q98-10 97 5l3 1"/><path fill="none" d="M6-32Q-18-12-26-2m72-17q8 24 9 43m9-71q13 3 23 10M37-76q2-14-1-24M1-68q-14-9-36-9m-27 66q-5-14-6-38m-8 71q-9 2-19 0m45 32q1 16 8 28m25-43q17 9 41 13m7 27Q20 92-3 95m71-28 12 13m0-45Q90 25 97 5"/></g></defs>
+                <circle r="100" fill="#fff"/><circle r="100" fill="url(#gb)"/><use xlink:href="#gc" href="#gc" stroke="#EEE" stroke-width="7"/><use xlink:href="#gc" href="#gc" stroke="#DDD" stroke-width="4"/><use xlink:href="#gc" href="#gc" stroke="#999" stroke-width="2"/><use xlink:href="#gc" href="#gc" stroke="#000"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="home-hello">Привет, ${esc(USER)} <span class="home-hello-wave">👋</span></div>
+      </div>
+
       <div class="home-trophy">
         <svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -5110,15 +5294,15 @@ function renderHome(){
         ${leadText ? `<div class="home-score-diff" style="color:${leadColor}">${leadText}</div>` : '<div class="home-score-diff" style="opacity:0.6">Импортируй прогноз соперника для дуэли</div>'}
       </div>
 
+      ${streak.days >= 1 ? `<div class="home-streak">
+        <span class="home-streak-fire">🔥</span>
+        <span class="home-streak-text">Серия: <b>${streak.days}</b> ${streak.days===1?'день':streak.days<5?'дня':'дней'} подряд с очками</span>
+        <span class="home-streak-pts">+${streak.pts}</span>
+      </div>` : ''}
+
       <div class="gc home-next">
         <div class="home-next-label">${live ? 'Идёт сейчас' : 'Следующий матч'}</div>
         ${matchHtml}
-      </div>
-
-      <div class="home-actions">
-        <button class="home-btn home-btn-gold" onclick="switchTabById('stats')">Статистика</button>
-        <button class="home-btn" onclick="switchTabById('groups')">Группы</button>
-        <button class="home-btn" onclick="switchTabById('bracket')">Плей-офф</button>
       </div>
     </div>`;
 
