@@ -907,7 +907,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .s1{background:var(--gr);color:var(--gr)}.s2{background:var(--ac);color:var(--ac)}.s3{background:var(--mu);color:var(--mu)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--mu);margin-top:10px;padding:10px 14px;background:rgba(25,25,25,.5);border-radius:var(--r);border:1px solid var(--b)}
 .li{display:flex;align-items:center;gap:6px}
-.api-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;padding:0}
+.api-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;padding:0;width:fit-content}
+.api-row .rbtn{flex:0 0 auto}
 .rbtn-compact{padding:6px 12px}
 .api-input{font-size:11px;border:1px solid var(--b2);border-radius:8px;padding:6px 12px;background:var(--sf2);color:var(--tx);font-family:'IBM Plex Mono',monospace;width:240px;outline:none;transition:all 0.2s}
 .api-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(244,208,63,0.2)}
@@ -944,7 +945,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .half{display:flex;align-items:flex-start;gap:0}
 .half.right{flex-direction:row-reverse}
 .bround{display:flex;flex-direction:column;flex-shrink:0}
-.bhead{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--mu);text-align:center;padding:0 4px 9px;border-bottom:1px solid var(--b);white-space:nowrap;margin-bottom:0;font-weight:700}
+.bhead{text-align:center;padding:0 4px 10px;border-bottom:1px solid var(--b2);white-space:nowrap;margin-bottom:0}
+.bhead-name{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ac);font-weight:700;line-height:1.2}
+.bhead-dates{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;color:var(--mu);margin-top:3px;opacity:0.8}
 .bslots{display:flex;flex-direction:column}
 .bslot{display:flex;align-items:center;justify-content:center;padding:0 4px}
 .mc{width:158px;border-radius:14px;flex-shrink:0;overflow:hidden}
@@ -1265,13 +1268,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   position:relative;
   height:18px;
   background:linear-gradient(90deg,
-    rgba(187,187,187,0.3) 0%,rgba(187,187,187,0.3) 30%,
-    rgba(103,232,249,0.3) 30%,rgba(103,232,249,0.3) 60%,
-    rgba(244,208,63,0.3) 60%,rgba(244,208,63,0.3) 80%,
-    rgba(248,113,113,0.3) 80%,rgba(248,113,113,0.3) 100%);
+    rgba(187,187,187,0.8) 0%,rgba(187,187,187,0.8) 30%,
+    rgba(103,232,249,0.85) 30%,rgba(103,232,249,0.85) 60%,
+    rgba(244,208,63,0.9) 60%,rgba(244,208,63,0.9) 80%,
+    rgba(248,113,113,0.9) 80%,rgba(248,113,113,0.9) 100%);
   border-radius:9999px;
   margin:20px 0 10px;
-  border:1px solid var(--b);
+  border:1px solid var(--b2);
+  box-shadow:0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 .risk-marker{
   position:absolute;
@@ -1314,6 +1318,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   background:var(--glass);
   border:1px solid var(--b2);
   border-radius:14px;
+  cursor:pointer;
   transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 .group-compact:hover{transform:translateY(-3px);border-color:rgba(244,208,63,0.4);box-shadow:0 10px 24px rgba(244,208,63,0.15)}
@@ -1392,6 +1397,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .upset-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .upset-team.winner .upset-name{color:var(--ac);font-weight:700}
 .upset-team.loser .upset-name{color:var(--mu);opacity:0.75}
+.upset-team.even .upset-name{color:var(--tx);font-weight:500}
+.upset-match{margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,0.06);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.upset-match.hit{color:var(--gr)}
+.upset-match.exact{color:#34d399;text-shadow:0 0 12px rgba(52,211,153,0.4)}
+.upset-match.near{color:#a78bfa}
+.upset-match.miss{color:var(--mu);opacity:0.55}
+.upset-card.matched{border-color:rgba(74,222,128,0.5);background:linear-gradient(135deg,rgba(74,222,128,0.1),rgba(74,222,128,0.02))}
+.upset-card.matched:hover{box-shadow:0 10px 26px rgba(74,222,128,0.2)}
 .hero-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--b);font-size:14px}
 .hero-row:last-child{border-bottom:none}
 .hero-flag{font-size:24px;line-height:1}
@@ -1434,6 +1447,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   margin-bottom:8px;
 }
 .duel-style-hint{font-size:12px;color:var(--mu);margin:-6px 0 14px;line-height:1.5;opacity:0.85}
+.duel-portrait{display:flex;flex-direction:column;gap:8px;margin-top:14px;width:100%}
+.duel-insight{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:10px;text-align:left}
+.duel-insight-icon{font-size:18px;line-height:1.2;flex-shrink:0}
+.duel-insight-body{min-width:0}
+.duel-insight-text{font-size:13px;font-weight:700;color:var(--tx);line-height:1.25}
+.duel-insight-sub{font-size:11px;color:var(--mu);line-height:1.4;margin-top:2px}
+.duel-portrait-empty{font-size:12px;color:var(--mu);opacity:0.7;padding:12px 0;text-align:center}
 .duel-risk{
   font-family:'Bebas Neue',sans-serif;
   font-size:56px;
@@ -1589,7 +1609,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   gap:16px;
   margin-bottom:18px;
 }
-.live-stat{padding:6px 0}
+.live-stat{padding:6px 0;text-align:center}
 .live-stat-num{
   font-family:'Bebas Neue',sans-serif;
   font-size:46px;
@@ -2044,9 +2064,9 @@ img.emoji{
   </div>
   <div class="tabs">
     <button class="tab on"  onclick="switchTab('home',this)">🏠 Главная</button>
-    <button class="tab"     onclick="switchTab('groups',this)">Группы</button>
-    <button class="tab"     onclick="switchTab('standings',this)">Таблица</button>
-    <button class="tab"     onclick="switchTab('bracket',this)">Плейофф</button>
+    <button class="tab"     onclick="switchTab('groups',this)">⚽ Группы</button>
+    <button class="tab"     onclick="switchTab('standings',this)">🏅 Таблица</button>
+    <button class="tab"     onclick="switchTab('bracket',this)">🎯 Плейофф</button>
     <button class="tab"     onclick="switchTab('champion',this)">🏆 Чемпион</button>
     <button class="tab"     onclick="switchTab('stats',this)">📊 Статистика</button>
   </div>
@@ -2068,10 +2088,10 @@ img.emoji{
     <div class="about-lead">Семейный трекер прогнозов на Чемпионат мира. Ставишь счета, приложение само сверяет с реальными результатами и считает, кто из вас лучший оракул.</div>
 
     <div class="about-h">Как устроено внутри</div>
-    <p>Один HTML-файл, ванильный JavaScript, без фреймворков и без сборки — открывается двойным кликом. Все твои прогнозы живут в localStorage прямо в браузере, на сервер ничего не уходит. Реальные результаты тянутся с football-data.org через крошечный Cloudflare-воркер (он держит API-ключ у себя, чтобы тот не светился в коде). Флаги — Twemoji, графики и кубок — рисованный SVG. Лёгкое, быстрое, переносимое.</p>
+    <p>Один HTML-файл, ванильный JavaScript, без фреймворков и без сборки — открывается двойным кликом. Все твои прогнозы живут в localStorage прямо в браузере, на сервер ничего не уходит. Реальные результаты тянутся с football-data.org через крошечный Cloudflare-воркер (он держит API-ключ у себя, чтобы тот не светился в коде) и подгружаются автоматически при входе. Флаги — Twemoji, графики и кубок — рисованный SVG. Лёгкое, быстрое, переносимое.</p>
 
     <div class="about-h">Вкладки</div>
-    <p><b>Главная</b> — витрина: кубок, счёт между вами, следующий матч и быстрый переход куда нужно. <b>Группы</b> — ставишь счета на все матчи группового этапа. <b>Таблица</b> — как расклад выглядит по очкам (твой прогноз, сравнение, реальность). <b>Плей-офф</b> — сетка на вылет, заполняется от твоих прогнозов. <b>Чемпион</b> — кого ты ведёшь к кубку и его путь до финала. <b>Статистика</b> — сердце аналитики: live-трекер, счёт между вами, графики динамики, твоя точность и разбор турнира.</p>
+    <p><b>Главная</b> — витрина: приветствие с забитым голом, кубок, счёт между вами, серия дней с очками и следующий матч. <b>Группы</b> — ставишь счета на все матчи группового этапа. <b>Таблица</b> — как расклад выглядит по очкам (твой прогноз, сравнение, реальность). <b>Плей-офф</b> — сетка на вылет, заполняется от твоих прогнозов. <b>Чемпион</b> — кого ты ведёшь к кубку и его путь до финала. <b>Статистика</b> — сердце аналитики: live-трекер, счёт между вами, графики динамики, твой портрет прогнозиста (во что веришь, любишь ли ничьи), очки по группам, твоя точность и разбор реального турнира с героями и сенсациями.</p>
 
     <div class="about-h">Как считаются очки</div>
     <div class="about-points">
@@ -3299,7 +3319,12 @@ function connSVG(n,sh,dir){
 
 function bRound(label,matches,sh,w,mode){
   const H=matches.length*sh;
-  let h=`<div class="bround" style="width:${w||162}px"><div class="bhead" style="width:${w||162}px">${label}</div><div class="bslots" style="height:${H}px">`;
+  // Split "Name · dates" into a bold round name + a quieter date line.
+  const parts = String(label).split('·');
+  const rName = (parts[0]||'').trim();
+  const rDates = (parts[1]||'').trim();
+  const headHtml = `<div class="bhead-name">${rName}</div>${rDates ? `<div class="bhead-dates">${rDates}</div>` : ''}`;
+  let h=`<div class="bround" style="width:${w||162}px"><div class="bhead" style="width:${w||162}px">${headHtml}</div><div class="bslots" style="height:${H}px">`;
   matches.forEach(m=>{h+=`<div class="bslot" style="height:${sh}px">${mcCard(m,m.id==='FIN',m.id==='P3',mode)}</div>`;});
   return h+'</div></div>';
 }
@@ -3552,9 +3577,13 @@ function findRealForGroupMatch(gid, mIdx, reader){
 function isToday(iso){
   const d = new Date(iso);
   const now = new Date();
-  return d.getUTCFullYear() === now.getUTCFullYear()
-      && d.getUTCMonth() === now.getUTCMonth()
-      && d.getUTCDate() === now.getUTCDate();
+  // Compare in the user's LOCAL timezone — match times are displayed locally
+  // (e.g. MSK), so "today" must mean the local calendar day, not UTC. Otherwise
+  // a late-evening-UTC match shows as "today" in the tracker but "yesterday"
+  // for the points badge.
+  return d.getFullYear() === now.getFullYear()
+      && d.getMonth() === now.getMonth()
+      && d.getDate() === now.getDate();
 }
 
 // Find the closest upcoming match strictly in the future. Returns the match
@@ -3687,18 +3716,22 @@ function computeLiveScore(){
     });
   });
 
-  // How many of MY predicted upsets actually happened?
+  // How many of MY predicted upsets actually happened? Tag each upset too.
   let upsetsMatched = 0;
   realUpsets.forEach(ru => {
-    if(!ru.group) return;
+    if(!ru.group){ ru.matched = false; return; }
     const key1 = `${ru.group}:${ru.home}:${ru.away}`;
     const key2 = `${ru.group}:${ru.away}:${ru.home}`;
-    if(myUpsetSet.has(key1) || myUpsetSet.has(key2)) upsetsMatched++;
+    ru.matched = myUpsetSet.has(key1) || myUpsetSet.has(key2);
+    if(ru.matched) upsetsMatched++;
   });
 
-  // ── Real heroes & villains (only meaningful after group stage ends) ──
-  // Heroes = non-favorites in top-2 of their real group
-  // Villains = favorites NOT in top-2 of their real group
+  // ── Real heroes & villains ──
+  // Heroes  = non-favorites in top-2 of their real group (by position)
+  // Villains = favorites underperforming on POINTS — under 2.0 pts/game. A
+  // favorite is expected to win; dropping below "a win every other game" is a
+  // flop on its own merit, visible from round 1 (1 draw = 1.0 ppg = flop),
+  // regardless of where rivals sit. Underdogs with the same points aren't flops.
   const realHeroes = [], realVillains = [];
   const seenHero = new Set(), seenVillain = new Set();
   Object.entries(realData).forEach(([gid, rows]) => {
@@ -3712,9 +3745,10 @@ function computeLiveScore(){
         seenHero.add(ruN);
         realHeroes.push({name: ruN, gid, pos: pos+1, pts: row.pts, diff: row.gf - row.ga});
       }
-      if(isFav && pos > 1 && row.pl >= 2 && !seenVillain.has(ruN)){
+      const ppg = row.pl > 0 ? row.pts / row.pl : 0;
+      if(isFav && row.pl >= 1 && ppg < 2.0 && !seenVillain.has(ruN)){
         seenVillain.add(ruN);
-        realVillains.push({name: ruN, gid, pos: pos+1, pts: row.pts, diff: row.gf - row.ga});
+        realVillains.push({name: ruN, gid, pos: pos+1, pts: row.pts, diff: row.gf - row.ga, played: row.pl});
       }
     });
   });
@@ -3882,6 +3916,12 @@ function switchTabById(id){
   if(btn) switchTab(id, btn);
 }
 
+// Jump to the standings tab focused on a specific group (from a group card click).
+function openGroupInTable(gid){
+  curGroup = gid;
+  switchTabById('standings');
+}
+
 // Render the live tracker block at the top of stats tab
 function renderLiveSection(){
   // Helper: timer block markup. Renders different states based on data presence.
@@ -4014,24 +4054,38 @@ function renderLiveSection(){
       const meBolderS = sStats.risk > oStats2.risk;
       const tieS = sStats.risk === oStats2.risk;
       html += `<div class="stats-section-head">Стиль прогнозов</div>
-      <div class="duel-style-hint">Не «кто угадал», а «кто как ставит» — насколько дерзкие у вас прогнозы</div>
-      <div class="duel-grid">
+      <div class="duel-style-hint">Не «кто угадал», а «кто как ставит» — характер ваших прогнозов</div>`;
+
+      // Per-player prediction portraits (insights replace the old dry rows).
+      const myProfile = computeStyleProfile(lg);
+      const oProfile = computeStyleProfile(getOtherPred);
+      const insightRows = (prof) => {
+        if(!prof || prof.insights.length === 0){
+          return `<div class="duel-portrait-empty">Мало данных для портрета</div>`;
+        }
+        return prof.insights.slice(0,4).map(ins =>
+          `<div class="duel-insight">
+            <span class="duel-insight-icon">${ins.icon}</span>
+            <div class="duel-insight-body">
+              <div class="duel-insight-text">${ins.text}</div>
+              <div class="duel-insight-sub">${ins.sub}</div>
+            </div>
+          </div>`).join('');
+      };
+
+      html += `<div class="duel-grid">
         <div class="duel-card ${meBolderS ? 'duel-winner' : ''}">
           <div class="duel-name">Ты</div>
           <div class="duel-risk" style="color:${rcMe}">${sStats.risk}</div>
           <div class="duel-tag"><span class="risk-style-tag ${lvlS.cls}">${lvlS.label}</span></div>
-          <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${sStats.upsets}</b></div>
-          <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${sStats.fadedFavorites.length}</b></div>
-          <div class="duel-row"><span>Заполнено:</span><b>${sStats.fillPercent}%</b></div>
+          <div class="duel-portrait">${insightRows(myProfile)}</div>
         </div>
         <div class="duel-vs">${tieS ? '=' : 'vs'}</div>
         <div class="duel-card ${!meBolderS && !tieS ? 'duel-winner' : ''}">
           <div class="duel-name">${getOtherName()}</div>
           <div class="duel-risk" style="color:${rcO}">${oStats2.risk}</div>
           <div class="duel-tag"><span class="risk-style-tag ${oLvlS.cls}">${oLvlS.label}</span></div>
-          <div class="duel-row"><span>Сенсаций:</span><b style="color:var(--ac)">${oStats2.upsets}</b></div>
-          <div class="duel-row"><span>Фаворитов мимо:</span><b style="color:var(--rd)">${oStats2.fadedFavorites.length}</b></div>
-          <div class="duel-row"><span>Заполнено:</span><b>${oStats2.fillPercent}%</b></div>
+          <div class="duel-portrait">${insightRows(oProfile)}</div>
         </div>
       </div>`;
       const riskDiffS = Math.abs(sStats.risk - oStats2.risk);
@@ -4146,7 +4200,7 @@ function renderLiveSection(){
 
     // Real villains
     html += `<div class="hero-card villains">
-      <div class="hero-card-title">💀 Реальные антигерои <span>— фавориты вне топ-2</span></div>`;
+      <div class="hero-card-title">💀 Реальные антигерои <span>— фавориты с недобором очков</span></div>`;
     if(live.realVillains.length === 0){
       html += `<div class="stats-empty" style="margin:0;padding:14px">Все фавориты в норме — никто пока не провалился.</div>`;
     } else {
@@ -4155,7 +4209,7 @@ function renderLiveSection(){
         html += `<div class="trow">
           <span class="trow-flag">${flagForTeam(v.name)}</span>
           <span class="trow-name">${esc(v.name)}</span>
-          <span class="trow-meta">${v.pos}-й · ${esc(v.pts)}о · гр.${v.gid}</span>
+          <span class="trow-meta">${esc(v.pts)} ${v.pts===1?'очко':v.pts<5?'очка':'очков'} за ${v.played} ${v.played===1?'матч':v.played<5?'матча':'матчей'} · гр.${v.gid}</span>
           <span class="trow-tag ${matched?'hit':'miss'}" title="${matched?'Ты предсказал провал':'Ты не угадал'}">${matched?'✓ ты тоже':'✗ мимо'}</span>
         </div>`;
       });
@@ -4177,20 +4231,35 @@ function renderLiveSection(){
     live.realUpsets.slice(0, 8).forEach(u => {
       const scoreStr = `${u.hs}:${u.as}`;
       const place = u.group ? 'гр. '+u.group : (u.stage||'').replace('_',' ').toLowerCase();
-      html += `<div class="upset-card">
+      // In a draw both teams are equal — no winner/loser highlight. In a decisive
+      // upset, the winner (the underdog) gets the accent.
+      const homeCls = u.isDraw ? 'even' : (u.winner === u.home ? 'winner' : 'loser');
+      const awayCls = u.isDraw ? 'even' : (u.winner === u.away ? 'winner' : 'loser');
+      // Accuracy of YOUR prediction for this match — predicting the upset means
+      // you got at least the outcome right; colour shows how close the score was.
+      const sc = scoreRealMatch(u);
+      const kind = sc ? sc.kind : null;
+      let matchCls, matchLbl;
+      if(kind === 'full'){ matchCls = 'exact'; matchLbl = '✓ точный счёт!'; }
+      else if(kind === 'near'){ matchCls = 'near'; matchLbl = '✓ почти угадал'; }
+      else if(kind === 'part'){ matchCls = 'hit'; matchLbl = '✓ угадал исход'; }
+      else { matchCls = 'miss'; matchLbl = '✗ не угадал'; }
+      const isHit = matchCls !== 'miss';
+      html += `<div class="upset-card${isHit ? ' matched' : ''}">
         <div class="upset-score-row">
           <span class="upset-score">${scoreStr}</span>
           ${u.isDraw ? '<span class="upset-draw">ничья</span>' : ''}
           <span class="upset-place">${place}</span>
         </div>
-        <div class="upset-team winner">
-          <span class="upset-flag">${flagForTeam(u.winner)}</span>
-          <span class="upset-name">${esc(u.winner)}</span>
+        <div class="upset-team ${homeCls}">
+          <span class="upset-flag">${flagForTeam(u.home)}</span>
+          <span class="upset-name">${esc(u.home)}</span>
         </div>
-        <div class="upset-team loser">
-          <span class="upset-flag">${flagForTeam(u.loser)}</span>
-          <span class="upset-name">${esc(u.loser)}</span>
+        <div class="upset-team ${awayCls}">
+          <span class="upset-flag">${flagForTeam(u.away)}</span>
+          <span class="upset-name">${esc(u.away)}</span>
         </div>
+        <div class="upset-match ${matchCls}">${matchLbl}</div>
       </div>`;
     });
     html += `</div></div>`;
@@ -4294,6 +4363,33 @@ const FAVORITES = new Set([
   'Испания','Португалия','Нидерланды','Бельгия','Италия',
   'Хорватия','Уругвай'
 ]);
+
+// Confederation of each team — used to profile prediction style ("believes in
+// Europe", "writes off Africa", etc). Codes: UEFA, CONMEBOL, CAF, AFC,
+// CONCACAF, OFC. Names match GD exactly.
+const CONFED = {
+  // UEFA — Europe
+  'Чехия':'UEFA','Швейцария':'UEFA','Босния':'UEFA','Шотландия':'UEFA','Турция':'UEFA',
+  'Германия':'UEFA','Нидерланды':'UEFA','Швеция':'UEFA','Бельгия':'UEFA','Испания':'UEFA',
+  'Франция':'UEFA','Норвегия':'UEFA','Австрия':'UEFA','Португалия':'UEFA','Англия':'UEFA','Хорватия':'UEFA','Италия':'UEFA',
+  // CONMEBOL — South America
+  'Бразилия':'CONMEBOL','Парагвай':'CONMEBOL','Эквадор':'CONMEBOL','Уругвай':'CONMEBOL',
+  'Аргентина':'CONMEBOL','Колумбия':'CONMEBOL',
+  // CAF — Africa
+  'ЮАР':'CAF','Марокко':'CAF','Тунис':'CAF','Египет':'CAF','Сенегал':'CAF',
+  'Алжир':'CAF','ДР Конго':'CAF','Кабо-Верде':'CAF','Гана':'CAF',
+  // AFC — Asia
+  'Южная Корея':'AFC','Катар':'AFC','Австралия':'AFC','Япония':'AFC','Иран':'AFC',
+  'Саудовская Аравия':'AFC','Узбекистан':'AFC','Иордания':'AFC','Ирак':'AFC',
+  // CONCACAF — North/Central America
+  'Мексика':'CONCACAF','Канада':'CONCACAF','Гаити':'CONCACAF','США':'CONCACAF',
+  'Кюрасао':'CONCACAF','Панама':'CONCACAF',
+  // OFC — Oceania
+  'Нов. Зеландия':'OFC'
+};
+const CONFED_NAME = {UEFA:'Европа', CONMEBOL:'Южн. Америка', CAF:'Африка', AFC:'Азия', CONCACAF:'Сев. Америка', OFC:'Океания'};
+const CONFED_ADJ = {UEFA:'европейцев', CONMEBOL:'южноамериканцев', CAF:'африканцев', AFC:'азиатов', CONCACAF:'команды Сев. Америки', OFC:'Океанию'};
+
 
 // Per-round weight for playoff upsets (used by both me and friend risk calc).
 // Later rounds = harder to predict, more risk if the underdog wins.
@@ -4472,6 +4568,82 @@ function computeOtherStats(){
   villains.sort((a,b) => a.pts - b.pts || a.diff - b.diff);
 
   return {risk, upsets, fadedFavorites: fadedFavoritesList, filled, total, fillPercent: total ? Math.round(filled/total*100) : 0, heroes, villains, groupStats};
+}
+
+// Analyze your group-stage predictions into a "prediction personality" — honest
+// observations (draws, per-confederation belief, scoring style, favorite-trust).
+// Only returns insights the data actually supports. reader = lg (you).
+function computeStyleProfile(reader){
+  const read = reader || lg;
+  let totalMatches = 0, draws = 0, totalGoals = 0, blowouts = 0, filledMatches = 0;
+  // Per-confederation: points your predictions GIVE each team's confederation.
+  const confPts = {}, confGames = {};
+  Object.entries(GD).forEach(([gid, g]) => {
+    g.m.forEach(([hi, ai], i) => {
+      totalMatches++;
+      const mid = `g${gid}_${i}`;
+      const h = read(mid+'_h'), a = read(mid+'_a');
+      if(h === '' || a === '') return;
+      filledMatches++;
+      const hg = +h, ag = +a;
+      const hn = g.t[hi][1], an = g.t[ai][1];
+      totalGoals += hg + ag;
+      if(hg === ag) draws++;
+      if(Math.abs(hg - ag) >= 3) blowouts++;
+      // Award points per your predicted result, bucketed by confederation
+      const hConf = CONFED[hn], aConf = CONFED[an];
+      let hP, aP;
+      if(hg > ag){ hP = 3; aP = 0; } else if(hg < ag){ hP = 0; aP = 3; } else { hP = 1; aP = 1; }
+      if(hConf){ confPts[hConf] = (confPts[hConf]||0) + hP; confGames[hConf] = (confGames[hConf]||0) + 1; }
+      if(aConf){ confPts[aConf] = (confPts[aConf]||0) + aP; confGames[aConf] = (confGames[aConf]||0) + 1; }
+    });
+  });
+  if(filledMatches === 0) return null;
+
+  // Per-confederation ppg (only those with enough games to be meaningful)
+  const confPpg = {};
+  Object.keys(confGames).forEach(c => {
+    if(confGames[c] >= 4) confPpg[c] = confPts[c] / confGames[c];
+  });
+  const avgGoals = totalGoals / filledMatches;
+  const drawPct = draws / filledMatches;
+
+  // Build honest insight lines (only those the data backs up)
+  const insights = [];
+
+  // 1. Confederation belief — highest and lowest ppg (if spread is real)
+  const confEntries = Object.entries(confPpg).sort((a,b) => b[1] - a[1]);
+  if(confEntries.length >= 2){
+    const [topC, topV] = confEntries[0];
+    const [lowC, lowV] = confEntries[confEntries.length - 1];
+    if(topV >= 1.6){
+      insights.push({icon:'📈', text:`Веришь в ${CONFED_ADJ[topC]}`, sub:`даёшь им ${topV.toFixed(1)} очка за матч — больше всех`});
+    }
+    if(lowV <= 1.0 && lowC !== topC){
+      insights.push({icon:'📉', text:`Не веришь в ${CONFED_ADJ[lowC]}`, sub:`всего ${lowV.toFixed(1)} очка за матч в твоих прогнозах`});
+    }
+  }
+
+  // 2. Draw tendency
+  if(drawPct >= 0.30){
+    insights.push({icon:'🤝', text:'Любишь ничьи', sub:`${draws} из ${filledMatches} матчей у тебя вничью — это много`});
+  } else if(drawPct <= 0.10){
+    insights.push({icon:'⚔️', text:'Не веришь в ничьи', sub:`только ${draws} ${draws===1?'ничья':'ничьих'} на ${filledMatches} матчей — почти всегда победитель`});
+  }
+
+  // 3. Scoring style
+  if(avgGoals >= 3.0){
+    insights.push({icon:'🎆', text:'Голеадор', sub:`в среднем ${avgGoals.toFixed(1)} гола за матч — ставишь на результативность`});
+  } else if(avgGoals <= 1.8){
+    insights.push({icon:'🧱', text:'Сухой счёт', sub:`в среднем ${avgGoals.toFixed(1)} гола за матч — низовые прогнозы`});
+  }
+
+  // 4. Blowouts
+  if(blowouts >= 4){
+    insights.push({icon:'💥', text:'Любишь разгромы', sub:`${blowouts} матчей с разницей 3+ гола`});
+  }
+
+  return {insights, draws, avgGoals, filledMatches, blowouts, confPpg};
 }
 
 function computeStats(){
@@ -5004,7 +5176,7 @@ function renderStats(){
   // oStats still needed below for the "чьи данные" source toggle + src picker.
   const oStats = computeOtherStats();
 
-  html += `<div class="section-title">📊 Общая статистика</div>
+  html += `<div class="section-title">Общая статистика</div>
     <div class="stats-grid">`;
 
   // Only show fill card when there's something to fill — hide at 100% to avoid clutter
@@ -5121,7 +5293,7 @@ function renderStats(){
       valHtml = `${pts}<span class="gc-pts-suffix">очк${pts===1?'о':pts<5?'а':'ов'}</span>`;
       valColor = pts >= played * 4 ? 'var(--gr)' : pts >= played ? 'var(--ac)' : pts > 0 ? 'var(--ac2)' : 'var(--rd)';
     }
-    html += `<div class="group-compact${extra}">
+    html += `<div class="group-compact${extra}" onclick="openGroupInTable('${gid}')" title="Открыть таблицу группы ${gid}">
       ${marker}
       <div class="group-compact-letter">${gid}</div>
       <div class="group-compact-pts" style="color:${valColor}">${valHtml}</div>
